@@ -1,0 +1,117 @@
+canteenwallet-frontend/
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── assets/
+│   │   ├── logo.svg
+│   │   └── icons/
+│   │
+│   ├── contexts/
+│   │   ├── AuthContext.jsx
+│   │   └── CartContext.jsx
+│   │
+│   ├── components/
+│   │   ├── common/
+│   │   │   ├── Button.jsx
+│   │   │   ├── Button.css
+│   │   │   ├── Input.jsx
+│   │   │   ├── Input.css
+│   │   │   ├── Card.jsx
+│   │   │   ├── Card.css
+│   │   │   ├── Modal.jsx
+│   │   │   ├── Modal.css
+│   │   │   ├── Loader.jsx
+│   │   │   ├── Loader.css
+│   │   │   ├── SearchBar.jsx
+│   │   │   └── SearchBar.css
+│   │   │
+│   │   └── layout/
+│   │       ├── Header.jsx
+│   │       ├── Header.css
+│   │       ├── Sidebar.jsx
+│   │       ├── Sidebar.css
+│   │       ├── BottomNav.jsx
+│   │       └── BottomNav.css
+│   │
+│   ├── pages/
+│   │   ├── common/
+│   │   │   ├── RoleSelection.jsx
+│   │   │   └── RoleSelection.css
+│   │   │
+│   │   ├── parent/
+│   │   │   ├── ParentLogin.jsx
+│   │   │   ├── ParentLogin.css
+│   │   │   ├── OtpVerification.jsx
+│   │   │   ├── OtpVerification.css
+│   │   │   ├── ParentDashboard.jsx
+│   │   │   ├── ParentDashboard.css
+│   │   │   ├── TopUp.jsx
+│   │   │   ├── TopUp.css
+│   │   │   ├── TransactionHistory.jsx
+│   │   │   └── TransactionHistory.css
+│   │   │
+│   │   ├── cashier/
+│   │   │   ├── CashierLogin.jsx
+│   │   │   ├── CashierLogin.css
+│   │   │   ├── StationSelection.jsx
+│   │   │   ├── StationSelection.css
+│   │   │   ├── StudentSearch.jsx
+│   │   │   ├── StudentSearch.css
+│   │   │   ├── StudentProfile.jsx
+│   │   │   ├── StudentProfile.css
+│   │   │   ├── MenuCart.jsx
+│   │   │   ├── MenuCart.css
+│   │   │   ├── Checkout.jsx
+│   │   │   ├── Checkout.css
+│   │   │   ├── CouponPrint.jsx
+│   │   │   ├── CouponPrint.css
+│   │   │   ├── DaySummary.jsx
+│   │   │   └── DaySummary.css
+│   │   │
+│   │   └── admin/
+│   │       ├── AdminLogin.jsx
+│   │       ├── AdminLogin.css
+│   │       ├── AdminDashboard.jsx
+│   │       ├── AdminDashboard.css
+│   │       ├── DepositOverview.jsx
+│   │       ├── DepositOverview.css
+│   │       ├── ManualTopUp.jsx
+│   │       ├── ManualTopUp.css
+│   │       ├── SalesReport.jsx
+│   │       ├── SalesReport.css
+│   │       ├── DataImport.jsx
+│   │       ├── DataImport.css
+│   │       ├── MenuManagement.jsx
+│   │       ├── MenuManagement.css
+│   │       ├── UserManagement.jsx
+│   │       └── UserManagement.css
+│   │
+│   ├── services/
+│   │   ├── api.js
+│   │   ├── auth.js
+│   │   ├── parent.js
+│   │   ├── cashier.js
+│   │   └── admin.js
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── helpers.js
+│   │
+│   ├── styles/
+│   │   ├── global.css
+│   │   └── variables.css
+│   │
+│   ├── routes/
+│   │   ├── AppRoutes.jsx
+│   │   └── PrivateRoute.jsx
+│   │
+│   ├── App.jsx
+│   └── main.jsx
+│
+├── .env
+├── .gitignore
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md

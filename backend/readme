@@ -1,0 +1,45 @@
+Here you go! Save this in a README.md file in your backend folder 👇
+
+CanteenWallet API Documentation
+Base URL: http://localhost:5000/api/v1
+
+Auth APIs (Public)
+MethodEndpointBodyDescriptionPOST/auth/parent/login{ "mobile": "9876543210" }Send OTP to parentPOST/auth/parent/verify-otp{ "pid": 1, "otp": "123456" }Verify OTP and get tokenPOST/auth/user/login{ "username": "admin", "password": "password123" }Cashier or Admin login
+
+Parent APIs (Protected — PARENT token)
+MethodEndpointBodyDescriptionGET/parent/dashboardNoneGet balance and last 5 transactionsGET/parent/transactionsNoneGet full transaction historyGET/parent/transactions?from=2025-05-01&to=2025-05-18NoneFiltered transactionsPOST/parent/topup{ "amount": 500 }Mock top up wallet
+
+Student APIs (Protected — CASHIER token)
+MethodEndpointBodyDescriptionGET/students/search?q=STU001NoneSearch by barcodeGET/students/search?q=AdityaNoneSearch by nameGET/students/1/balanceNoneGet student details and balanceGET/students/stationsNoneGet all stationsGET/students/day-summaryNoneGet today's summary
+
+Menu APIs (Protected)
+MethodEndpointBodyDescriptionGET/menuNoneGet all active menu itemsPOST/menu{ "name": "Pasta", "rate": 45 }Add new item (Admin only)PUT/menu/1{ "name": "Pasta", "rate": 50 }Update item (Admin only)PUT/menu/1/status{ "status": "Inactive" }Disable item (Admin only)
+
+Coupon APIs (Protected — CASHIER token)
+MethodEndpointBodyDescriptionPOST/couponsSee belowCreate coupon and deduct wallet
+Coupon Body:
+json{
+    "studentID": 1,
+    "mode": "Wallet",
+    "items": [
+        { "itemID": 1, "rate": 60 },
+        { "itemID": 7, "rate": 30 }
+    ]
+}
+
+Admin APIs (Protected — ADMIN token)
+MethodEndpointBodyDescriptionGET/admin/dashboardNoneOverview statsGET/admin/depositsNoneAll parent balancesPOST/admin/manual-topup{ "parentID": 1, "amount": 500, "note": "Cash received" }Manual top upGET/admin/salesNoneToday's sales reportGET/admin/sales?from=2025-05-01&to=2025-05-18NoneFiltered sales reportGET/admin/usersNoneAll users listPOST/admin/users{ "username": "cashier3", "password": "pass123", "level": "Cashier" }Create new user
+
+How to use token in Postman
+Header:
+Authorization: Bearer YOUR_TOKEN_HERE
+
+Test order:
+
+Auth — login and get token
+Parent APIs — use parent token
+Student APIs — use cashier token
+Menu APIs — use cashier or admin token
+Coupon APIs — use cashier token
+Admin APIs — use admin token
+
