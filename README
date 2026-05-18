@@ -1,0 +1,199 @@
+# 🍽️ CanteenWallet - School Canteen Cashless eWallet System
+
+A complete digital wallet solution for school canteens enabling parents to manage funds, cashiers to process orders, and administrators to oversee operations.
+
+## 📋 Project Overview
+
+CanteenWallet is a three-interface web application that eliminates cash handling in school canteens through a digital wallet system.
+
+### 🎯 Objectives
+- Enable cashless canteen service for students
+- Provide transparency and easy operations for parents
+- Improve speed and accuracy at cash desks
+- Enable data collection for better canteen operations
+
+## 👥 User Roles & Interfaces
+
+| Role | Interface | Access |
+|------|-----------|--------|
+| **Parent** | Mobile-first Web App | OTP Login |
+| **Cashier** | Tablet Web App | Username + Password |
+| **Admin** | Desktop Web App | Username + Password |
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework:** React.js + Vite
+- **Styling:** Plain CSS
+- **State Management:** Context API
+- **HTTP Client:** Fetch API
+- **Hosting:** Vercel
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MySQL (MySQL2 raw queries)
+- **Authentication:** JWT
+- **OTP:** MSG91 (SMS) + Nodemailer (Email)
+- **Hosting:** Railway
+
+## 📁 Project Structure
+canteen-wallet/
+├── backend/
+│ ├── config/ # Database configuration
+│ ├── middleware/ # Auth & role middleware
+│ ├── routes/ # API routes (6 files)
+│ ├── controllers/ # Business logic (6 files)
+│ ├── helpers/ # OTP & JPT helpers
+│ ├── server.js # Entry point
+│ └── .env # Environment variables
+│
+├── frontend/
+│ ├── public/ # Static assets
+│ ├── src/
+│ │ ├── assets/ # Images & icons
+│ │ ├── components/ # Reusable UI components
+│ │ │ ├── common/ # Button, Input, Card, Modal, Loader, SearchBar
+│ │ │ └── layout/ # Header, Sidebar, BottomNav
+│ │ ├── contexts/ # AuthContext, CartContext
+│ │ ├── pages/ # All screens (22 total)
+│ │ │ ├── common/ # RoleSelection
+│ │ │ ├── parent/ # 5 screens
+│ │ │ ├── cashier/ # 8 screens
+│ │ │ └── admin/ # 8 screens
+│ │ ├── services/ # API calls (5 services)
+│ │ ├── utils/ # Helpers & constants
+│ │ ├── styles/ # Global & variables CSS
+│ │ └── routes/ # AppRoutes, PrivateRoute
+│ ├── package.json
+│ └── vite.config.js
+│
+└── README.md
+
+text
+
+## 🗄️ Database Schema (9 Tables)
+
+| Table | Description |
+|-------|-------------|
+| `Parent` | Parent details & wallet balance |
+| `Student` | Student details linked to Parent |
+| `Transactions` | All wallet transactions |
+| `Menu` | Canteen items & prices |
+| `Coupons` | Order receipts |
+| `Coupon_Items` | Individual items per coupon |
+| `Users` | Cashier & Admin accounts |
+| `Class_Master` | Class list |
+| `Division_Master` | Division list |
+
+## 🔌 API Endpoints (19 Total)
+
+### Auth Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/auth/parent/login` | Send OTP to parent |
+| POST | `/api/v1/auth/parent/verify-otp` | Verify OTP & get JWT |
+| POST | `/api/v1/auth/user/login` | Cashier/Admin login |
+
+### Parent Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/parent/dashboard` | Balance & recent transactions |
+| GET | `/api/v1/parent/transactions` | Full transaction history |
+| POST | `/api/v1/parent/topup` | Mock wallet top-up |
+
+### Cashier Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/students/search?q=` | Search by barcode/name |
+| GET | `/api/v1/students/:id/balance` | Get student & parent balance |
+| GET | `/api/v1/menu` | Get all menu items |
+| POST | `/api/v1/coupons` | Create order coupon |
+| GET | `/api/v1/coupons/day-summary` | Shift summary |
+
+### Admin Routes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/admin/dashboard` | Overview stats |
+| GET | `/api/v1/admin/deposits` | All parent balances |
+| POST | `/api/v1/admin/manual-topup` | Manual cash top-up |
+| GET | `/api/v1/admin/sales` | Sales report |
+| POST | `/api/v1/admin/import` | CSV data import |
+| GET/POST | `/api/v1/admin/users` | User management |
+| CRUD | `/api/v1/menu` | Menu management |
+
+## 📱 Screen List (22 Screens)
+
+### Parent App (Mobile First) - 5 Screens
+1. Role Selection
+2. Parent Login (Mobile/Email)
+3. OTP Verification
+4. Parent Dashboard
+5. Top Up
+6. Transaction History
+
+### Cashier App (Tablet) - 8 Screens
+1. Role Selection
+2. Cashier Login
+3. Station Selection
+4. Student Search (Barcode/Name)
+5. Student Profile
+6. Menu Cart
+7. Checkout
+8. Coupon Print
+9. Day Summary
+
+### Admin Panel (Desktop) - 8 Screens
+1. Role Selection
+2. Admin Login
+3. Admin Dashboard
+4. Deposit Overview
+5. Manual Top Up
+6. Sales Report
+7. Data Import
+8. Menu Management
+9. User Management
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher)
+- MySQL (v8 or higher)
+- Git
+
+### Backend Setup
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/canteen-wallet.git
+cd canteen-wallet/backend
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp .env.example .env
+
+# Update .env with your credentials
+# DB_HOST, DB_USER, DB_PASS, DB_NAME, JWT_SECRET, etc.
+
+# Run database migrations (create tables)
+# Run the SQL scripts in order
+
+# Start backend server
+npm run dev
+Frontend Setup
+bash
+# Navigate to frontend
+cd ../frontend
+
+# Install dependencies
+npm install
+
+# Create .env file
+echo "VITE_API_URL=http://localhost:5000/api/v1" > .env
+
+# Start development server
+npm run dev
+
+__________________________________ READ OR UNDERSTAND THIS WITH AI___________________________________
