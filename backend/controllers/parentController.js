@@ -135,4 +135,43 @@ const topUp = async (req, res) => {
     }
 };
 
-module.exports = { getDashboard, getTransactions, topUp };
+// Get Linked Students
+const getLinkedStudents = async (req, res) => {
+    try {
+        const parentID = req.user.id;
+
+        const [students] = await db.query(
+            `SELECT s.SID, s.Name, s.PermNum,
+                    cm.ClassName, dm.DivName,
+                    (SELECT c.Amount FROM Coupons c 
+                     WHERE c.StudentID = s.SID 
+                     ORDER BY c.Date_Time_Issue DESC LIMIT 1) as LastPurchaseAmount,
+                    (SELECT c.Date_Time_Issue FROM Coupons c 
+                     WHERE c.StudentID = s.SID 
+                     ORDER BY c.Date_Time_Issue DESC LIMIT 1) as LastPurchaseDate,
+                    (SELECT SUM(c.Amount) FROM Coupons c 
+                     WHERE c.StudentID = s.SID 
+                     AND DATE(c.Date_Time_Issue) = CURDATE()) as TodaySpending
+             FROM Student s
+             JOIN Class_Master cm ON s.Class = cm.ClassID
+             JOIN Division_Master dm ON s.DivID = dm.DivID
+             WHERE s.ParentID = ? AND s.Status = 'Active'`,
+            [parentID]
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: 'Students fetched successfully',
+            data: students
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+module.exports = { getDashboard, getTransactions, topUp, getLinkedStudents };

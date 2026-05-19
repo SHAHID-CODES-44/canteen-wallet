@@ -197,3 +197,16 @@ echo "VITE_API_URL=http://localhost:5000/api/v1" > .env
 npm run dev
 
 __________________________________ READ OR UNDERSTAND THIS WITH AI___________________________________
+
+
+
+
+frontend/src/pages/parent/ParentLogin.jsx
+frontend/src/pages/parent/OtpVerification.jsx
+frontend/src/pages/parent/ParentDashboard.jsx
+frontend/src/pages/parent/TopUp.jsx
+frontend/src/pages/parent/TransactionHistory.jsx
+Also share this one too 👇
+frontend/src/contexts/AuthContext.jsx
+frontend/src/services/auth.js
+frontend/src/services/parent.js

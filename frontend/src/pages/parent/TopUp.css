@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.topup-page {
+    min-height: 100vh;
+    background: #f5f7fa;
+    color: #1a1a2e;
+}
+
+.topup-shell {
+    width: min(100%, 430px);
+    margin: 0 auto;
+    padding: 22px 16px 36px;
+}
+
+.topup-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.topup-header button {
+    border: none;
+    background: #ffffff;
+    color: #4A90D9;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.topup-header p {
+    margin: 0 0 4px;
+    color: #718096;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.topup-header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.topup-hero-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 24px;
+    border-radius: 24px;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.28), transparent 150px),
+        linear-gradient(135deg, #4A90D9, #2f75b5);
+    box-shadow: 0 16px 36px rgba(74, 144, 217, 0.28);
+}
+
+.topup-hero-card span {
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.82;
+    text-transform: uppercase;
+}
+
+.topup-hero-card h2 {
+    margin: 8px 0;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.topup-hero-card p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.86;
+}
+
+.topup-hero-icon {
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.topup-card {
+    padding: 20px;
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.07);
+}
+
+.topup-section-heading h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.topup-section-heading p {
+    margin: 0 0 18px;
+    color: #718096;
+    font-size: 13px;
+}
+
+.quick-amounts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.quick-amounts button {
+    min-height: 54px;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    background: #f8fbff;
+    color: #4A90D9;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.quick-amounts button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(74, 144, 217, 0.12);
+}
+
+.quick-amounts button.active {
+    background: #4A90D9;
+    color: #ffffff;
+    border-color: #4A90D9;
+}
+
+.topup-form {
+    display: grid;
+    gap: 13px;
+}
+
+.topup-form label {
+    color: #4a5568;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.topup-form input {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 16px;
+    border: 1px solid #dce5ef;
+    border-radius: 16px;
+    outline: none;
+    background: #ffffff;
+    color: #1a1a2e;
+    font-size: 15px;
+}
+
+.topup-form input:focus {
+    border-color: #4A90D9;
+    box-shadow: 0 0 0 4px rgba(74, 144, 217, 0.14);
+}
+
+.topup-error,
+.topup-success {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.topup-error {
+    color: #9b1c1c;
+    background: #fdecea;
+}
+
+.topup-success {
+    color: #0B6B00;
+    background: #e8f5e9;
+}
+
+.topup-form button {
+    min-height: 54px;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #4A90D9, #2f75b5);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+    box-shadow: 0 12px 28px rgba(74, 144, 217, 0.22);
+}
+
+.topup-form button:hover {
+    transform: translateY(-2px);
+}
+
+.topup-form button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (min-width: 768px) {
+    .topup-shell {
+        width: min(100% - 48px, 1000px);
+        padding: 34px 0 48px;
+    }
+
+    .topup-header {
+        margin-bottom: 24px;
+    }
+
+    .topup-header h1 {
+        font-size: 30px;
+    }
+
+    .topup-hero-card,
+    .topup-card {
+        width: min(720px, 100%);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .quick-amounts {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

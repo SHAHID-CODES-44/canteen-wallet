@@ -1,0 +1,141 @@
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from '../contexts/AuthContext';
+import PrivateRoute from './PrivateRoute';
+
+// Common
+import RoleSelection from '../pages/common/RoleSelection';
+
+// Parent
+import ParentLogin from '../pages/parent/ParentLogin';
+import OtpVerification from '../pages/parent/OtpVerification';
+import ParentDashboard from '../pages/parent/ParentDashboard';
+import TopUp from '../pages/parent/TopUp';
+import TransactionHistory from '../pages/parent/TransactionHistory';
+
+// Cashier
+import CashierLogin from '../pages/cashier/CashierLogin';
+import StationSelection from '../pages/cashier/StationSelection';
+import StudentSearch from '../pages/cashier/StudentSearch';
+import StudentProfile from '../pages/cashier/StudentProfile';
+import MenuCart from '../pages/cashier/MenuCart';
+import Checkout from '../pages/cashier/Checkout';
+import CouponPrint from '../pages/cashier/CouponPrint';
+import DaySummary from '../pages/cashier/DaySummary';
+
+// Admin
+import AdminLogin from '../pages/admin/AdminLogin';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import DepositOverview from '../pages/admin/DepositOverview';
+import ManualTopUp from '../pages/admin/ManualTopUp';
+import SalesReport from '../pages/admin/SalesReport';
+import DataImport from '../pages/admin/DataImport';
+import MenuManagement from '../pages/admin/MenuManagement';
+import UserManagement from '../pages/admin/UserManagement';
+
+const AppRoutes = () => {
+    return (
+        <AuthProvider>
+            <Routes>
+                {/* Common */}
+                <Route path="/" element={<RoleSelection />} />
+
+                {/* Parent */}
+                <Route path="/parent/login" element={<ParentLogin />} />
+                <Route path="/parent/otp" element={<OtpVerification />} />
+                <Route path="/parent/dashboard" element={
+                    <PrivateRoute role="PARENT">
+                        <ParentDashboard />
+                    </PrivateRoute>
+                } />
+                <Route path="/parent/topup" element={
+                    <PrivateRoute role="PARENT">
+                        <TopUp />
+                    </PrivateRoute>
+                } />
+                <Route path="/parent/transactions" element={
+                    <PrivateRoute role="PARENT">
+                        <TransactionHistory />
+                    </PrivateRoute>
+                } />
+
+                {/* Cashier */}
+                <Route path="/cashier/login" element={<CashierLogin />} />
+                <Route path="/cashier/station" element={
+                    <PrivateRoute role="CASHIER">
+                        <StationSelection />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/search" element={
+                    <PrivateRoute role="CASHIER">
+                        <StudentSearch />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/student" element={
+                    <PrivateRoute role="CASHIER">
+                        <StudentProfile />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/cart" element={
+                    <PrivateRoute role="CASHIER">
+                        <MenuCart />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/checkout" element={
+                    <PrivateRoute role="CASHIER">
+                        <Checkout />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/coupon" element={
+                    <PrivateRoute role="CASHIER">
+                        <CouponPrint />
+                    </PrivateRoute>
+                } />
+                <Route path="/cashier/summary" element={
+                    <PrivateRoute role="CASHIER">
+                        <DaySummary />
+                    </PrivateRoute>
+                } />
+
+                {/* Admin */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/dashboard" element={
+                    <PrivateRoute role="ADMIN">
+                        <AdminDashboard />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/deposits" element={
+                    <PrivateRoute role="ADMIN">
+                        <DepositOverview />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/topup" element={
+                    <PrivateRoute role="ADMIN">
+                        <ManualTopUp />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/sales" element={
+                    <PrivateRoute role="ADMIN">
+                        <SalesReport />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/import" element={
+                    <PrivateRoute role="ADMIN">
+                        <DataImport />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/menu" element={
+                    <PrivateRoute role="ADMIN">
+                        <MenuManagement />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/users" element={
+                    <PrivateRoute role="ADMIN">
+                        <UserManagement />
+                    </PrivateRoute>
+                } />
+            </Routes>
+        </AuthProvider>
+    );
+};
+
+export default AppRoutes;
