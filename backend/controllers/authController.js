@@ -43,8 +43,24 @@ const parentLogin = async (req, res) => {
         const key = `parent_${parent.PID}`;
         storeOTP(key, otp);
 
-        // For now just console log OTP (SMS and Email integration later)
-        console.log(`OTP for ${parent.Name}: ${otp}`);
+        // Always print to console (fallback)
+        console.log(`=================================`);
+        console.log(`📱 OTP for ${parent.Name}: ${otp}`);
+        console.log(`=================================`);
+
+        // Try to send email if parent has email address
+        if (parent.EMailID) {
+            const { sendOTPByEmail } = require('../helpers/otpHelper');
+            const emailSent = await sendOTPByEmail(parent.EMailID, otp, parent.Name);
+            
+            if (emailSent) {
+                console.log(`📧 Email OTP sent to ${parent.EMailID}`);
+            } else {
+                console.log(`⚠️ Email failed. OTP printed in terminal only.`);
+            }
+        } else {
+            console.log(`⚠️ No email address found for parent. OTP printed in terminal only.`);
+        }
 
         return res.status(200).json({
             success: true,

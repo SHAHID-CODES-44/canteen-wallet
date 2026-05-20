@@ -765,3 +765,180 @@
     height: 300px;
   }
 }
+
+/* AI Chatbot Styles */
+.role-ai-section {
+  width: min(900px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 18px;
+}
+
+.role-ai-card {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 26px;
+  background: #ffffff;
+  box-shadow: 0 18px 44px rgba(26, 26, 46, 0.08);
+}
+
+.role-ai-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.role-ai-header h2 {
+  margin: 0 0 8px;
+  color: #1a1a2e;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+}
+
+.role-ai-header p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+.role-ai-toggle {
+  min-width: 126px;
+  min-height: 46px;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4a90d9, #357abd);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(74, 144, 217, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.role-ai-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(74, 144, 217, 0.3);
+}
+
+.role-ai-chat {
+  margin-top: 20px;
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+.role-ai-messages {
+  display: grid;
+  gap: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 14px;
+  border-radius: 18px;
+  background: #f8fbff;
+  border: 1px solid #edf2f7;
+}
+
+.role-ai-message {
+  width: fit-content;
+  max-width: 86%;
+  padding: 11px 14px;
+  border-radius: 16px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.role-ai-message.assistant {
+  color: #1a1a2e;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.role-ai-message.user {
+  justify-self: end;
+  color: #ffffff;
+  background: #4a90d9;
+}
+
+.role-ai-input-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.role-ai-input-row input {
+  flex: 1;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid #dce5ef;
+  border-radius: 999px;
+  outline: none;
+  color: #1a1a2e;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 0.88rem;
+}
+
+.role-ai-input-row input:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 4px rgba(74, 144, 217, 0.12);
+}
+
+.role-ai-input-row button {
+  min-width: 88px;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  background: #1a1a2e;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.role-ai-input-row button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.role-ai-refresh {
+  margin-top: 10px;
+  border: none;
+  background: transparent;
+  color: #4a90d9;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .role-ai-section {
+    width: min(100% - 28px, 900px);
+    padding-top: 12px;
+  }
+
+  .role-ai-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .role-ai-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .role-ai-toggle {
+    width: 100%;
+  }
+
+  .role-ai-input-row {
+    flex-direction: column;
+  }
+
+  .role-ai-input-row button {
+    min-height: 48px;
+    width: 100%;
+  }
+
+  .role-ai-message {
+    max-width: 100%;
+  }
+}

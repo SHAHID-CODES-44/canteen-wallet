@@ -1,0 +1,440 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.search-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top right, rgba(74, 144, 217, 0.12), transparent 26rem),
+        #f5f7fa;
+    font-family: 'Poppins', sans-serif;
+    color: #1a1a2e;
+}
+
+.search-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+    border-bottom: 1px solid #edf2f7;
+}
+
+.search-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.search-logo {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: white;
+}
+
+.search-counter {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1a1a2e;
+}
+
+.search-user {
+    font-size: 12px;
+    color: #718096;
+}
+
+.search-topbar-right {
+    display: flex;
+    gap: 10px;
+}
+
+.search-summary-btn,
+.search-logout-btn {
+    border: 1px solid #edf2f7;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.search-summary-btn {
+    background: #ffffff;
+    color: #4A90D9;
+}
+
+.search-logout-btn {
+    background: #fff5f5;
+    border-color: #fed7d7;
+    color: #E53E3E;
+}
+
+.search-summary-btn:hover,
+.search-logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.search-content {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 44px 24px;
+}
+
+.search-title {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.search-title span {
+    display: inline-flex;
+    margin-bottom: 10px;
+    color: #4A90D9;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.search-title h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+}
+
+.search-title p {
+    font-size: 15px;
+    color: #718096;
+}
+
+.search-action-card,
+.search-results {
+    background: #ffffff;
+    border: 1px solid #edf2f7;
+    border-radius: 26px;
+    padding: 22px;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.07);
+}
+
+.scan-btn {
+    width: 100%;
+    min-height: 58px;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 18px;
+    box-shadow: 0 14px 30px rgba(74, 144, 217, 0.24);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.scan-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px rgba(74, 144, 217, 0.3);
+}
+
+.scanner-wrapper {
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+#scanner-container {
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid #edf2f7;
+}
+
+.stop-scan-btn {
+    background: #E53E3E;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-bar-wrapper {
+    display: flex;
+    gap: 12px;
+}
+
+.search-input {
+    flex: 1;
+    min-height: 54px;
+    padding: 0 18px;
+    border: 1px solid #dce5ef;
+    border-radius: 16px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    background: #f8fbff;
+    color: #1a1a2e;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.search-input:focus {
+    border-color: #4A90D9;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(74, 144, 217, 0.14);
+}
+
+.search-go-btn {
+    min-width: 112px;
+    border: none;
+    border-radius: 16px;
+    background: #1a1a2e;
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-go-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.search-error {
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fdecea;
+    color: #9b1c1c;
+    font-size: 13px;
+    text-align: center;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.search-results-heading {
+    margin-bottom: 4px;
+}
+
+.search-results-heading h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a2e;
+}
+
+.search-results-heading p {
+    color: #718096;
+    font-size: 13px;
+}
+
+.search-result-card {
+    background: #f9fbfd;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    border: 1px solid #edf2f7;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.search-result-card:hover {
+    border-color: rgba(74, 144, 217, 0.45);
+    background: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.result-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.result-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.result-info h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.result-info p {
+    font-size: 13px;
+    color: #718096;
+}
+
+.result-id {
+    font-size: 12px !important;
+    color: #a0aec0 !important;
+    margin-top: 2px;
+}
+
+.result-balance {
+    text-align: right;
+    flex-shrink: 0;
+}
+
+.balance-label {
+    font-size: 11px;
+    color: #718096;
+    margin-bottom: 4px;
+}
+
+.result-balance h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0B8A00;
+}
+
+.cashier-logout-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(10px);
+}
+
+.cashier-logout-modal {
+    width: min(100%, 420px);
+    padding: 26px;
+    border: 1px solid #edf2f7;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.24);
+}
+
+.cashier-logout-modal span {
+    display: inline-flex;
+    margin-bottom: 12px;
+    color: #4A90D9;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.cashier-logout-modal h3 {
+    margin: 0 0 10px;
+    color: #1a1a2e;
+    font-size: 1.35rem;
+    line-height: 1.25;
+}
+
+.cashier-logout-modal p {
+    margin: 0;
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.cashier-logout-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.cashier-logout-actions button {
+    flex: 1;
+    min-height: 46px;
+    border-radius: 999px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.cancel-logout {
+    border: 1px solid #edf2f7;
+    color: #4a5568;
+    background: #f5f7fa;
+}
+
+.confirm-logout {
+    border: none;
+    color: #ffffff;
+    background: linear-gradient(135deg, #E53E3E, #b91c1c);
+}
+
+@media (max-width: 680px) {
+    .search-topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px;
+    }
+
+    .search-topbar-right {
+        width: 100%;
+    }
+
+    .search-summary-btn,
+    .search-logout-btn {
+        flex: 1;
+    }
+
+    .search-content {
+        padding: 30px 16px;
+    }
+
+    .search-bar-wrapper {
+        flex-direction: column;
+    }
+
+    .search-go-btn {
+        min-height: 52px;
+        width: 100%;
+    }
+
+    .search-result-card {
+        align-items: flex-start;
+    }
+
+    .result-balance {
+        min-width: 84px;
+    }
+
+    .cashier-logout-actions {
+        flex-direction: column;
+    }
+}

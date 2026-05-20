@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './RoleSelection.css';
 
 const roleCards = [
@@ -66,14 +66,93 @@ const stats = [
     { value: 'Admin', label: 'Sales, deposits, menu, and users' },
     { value: 'School', label: 'Cashless canteen visibility' },
 ];
+
 function RoleSelection() {
     const navigate = useNavigate();
+    const [aiOpen, setAiOpen] = useState(false);
+    const [aiInput, setAiInput] = useState('');
+    const [aiLoading, setAiLoading] = useState(false);
+    const [aiMessages, setAiMessages] = useState([
+        {
+            role: 'assistant',
+            content: 'Hi, I can help you understand CanteenWallet, how each role works, security, wallet top-ups, barcode checkout, and reports.'
+        }
+    ]);
+
+    const resetAiChat = () => {
+        setAiMessages([
+            {
+                role: 'assistant',
+                content: 'Chat refreshed. Ask me anything about CanteenWallet.'
+            }
+        ]);
+        setAiInput('');
+    };
+
+    const sendAiMessage = async () => {
+        const question = aiInput.trim();
+        if (!question || aiLoading) return;
+
+        const nextMessages = [
+            ...aiMessages,
+            { role: 'user', content: question }
+        ];
+
+        setAiMessages(nextMessages);
+        setAiInput('');
+        setAiLoading(true);
+
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'llama-3.1-8b-instant',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `You are the CanteenWallet assistant. Answer only questions about this school canteen eWallet app. Keep replies short, clear, friendly, and useful. Explain Parent, Cashier, and Admin roles, wallet top-up, barcode student identification, coupon checkout, reports, and security. Do not make fake claims. If unsure, say it depends on school setup.`
+                        },
+                        ...nextMessages
+                    ],
+                    temperature: 0.4,
+                    max_tokens: 180
+                })
+            });
+
+            const data = await response.json();
+            const answer = data?.choices?.[0]?.message?.content || 'I could not answer that right now. Please try again.';
+
+            setAiMessages([
+                ...nextMessages,
+                { role: 'assistant', content: answer }
+            ]);
+        } catch (err) {
+            setAiMessages([
+                ...nextMessages,
+                { role: 'assistant', content: 'AI assistant is not available right now. Please check the Groq API key and try again.' }
+            ]);
+        } finally {
+            setAiLoading(false);
+        }
+    };
+
+    const handleAiKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            sendAiMessage();
+        }
+    };
+
     const scrollToSection = (id) => {
         const section = document.getElementById(id);
         if (section) {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
+    
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -169,6 +248,64 @@ function RoleSelection() {
                         <div><strong>Coupon Printing</strong><p>Bluetooth thermal printer support for instant receipts.</p></div>
                         <div><strong>Data Insights</strong><p>Item-wise sales, popular items, and peak hour analytics.</p></div>
                     </div>
+                </div>
+            </section>
+
+            {/* AI Chatbot Section - Placed here as requested */}
+            <section className="role-ai-section">
+                <div className="role-ai-card animate-on-scroll">
+                    <div className="role-ai-header">
+                        <div>
+                            <span className="role-section-tag">AI Help</span>
+                            <h2>Ask about CanteenWallet</h2>
+                            <p>Need help choosing a role or understanding how the app works?</p>
+                        </div>
+
+                        <button
+                            type="button"
+                            className="role-ai-toggle"
+                            onClick={() => setAiOpen(!aiOpen)}
+                        >
+                            {aiOpen ? 'Close Chat' : 'Talk to Bot'}
+                        </button>
+                    </div>
+
+                    {aiOpen && (
+                        <div className="role-ai-chat">
+                            <div className="role-ai-messages">
+                                {aiMessages.map((msg, index) => (
+                                    <div
+                                        key={`${msg.role}-${index}`}
+                                        className={`role-ai-message ${msg.role === 'user' ? 'user' : 'assistant'}`}
+                                    >
+                                        {msg.content}
+                                    </div>
+                                ))}
+                                {aiLoading && (
+                                    <div className="role-ai-message assistant">
+                                        Thinking...
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="role-ai-input-row">
+                                <input
+                                    type="text"
+                                    placeholder="Ask about login, wallet, barcode, reports..."
+                                    value={aiInput}
+                                    onChange={(e) => setAiInput(e.target.value)}
+                                    onKeyDown={handleAiKeyDown}
+                                />
+                                <button type="button" onClick={sendAiMessage} disabled={aiLoading}>
+                                    Send
+                                </button>
+                            </div>
+
+                            <button type="button" className="role-ai-refresh" onClick={resetAiChat}>
+                                Refresh Chat
+                            </button>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -273,9 +410,9 @@ function RoleSelection() {
                     </div>
                     <div className="role-footer-column">
                         <h4>System</h4>
-                        <span>Parent Wallet</span>
-                        <span>Cashier Counter</span>
-                        <span>Admin Reports</span>
+                        <a href="#roles"><span>Parent Wallet</span></a>
+                        <a href="#roles"><span>Cashier Counter</span></a>
+                        <a href="#roles"><span>Admin Reports</span></a>
                     </div>
                     <div className="role-footer-column">
                         <h4>Contact</h4>

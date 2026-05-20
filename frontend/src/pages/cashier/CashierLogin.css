@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.cashier-login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #1a1a2e;
+    background:
+        radial-gradient(circle at top right, rgba(74, 144, 217, 0.16), transparent 26rem),
+        linear-gradient(180deg, #f8fbff 0%, #f5f7fa 100%);
+}
+
+.cashier-login-shell {
+    width: min(1120px, 100%);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+}
+
+.cashier-login-info {
+    display: none;
+}
+
+.cashier-login-card {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 30px 24px;
+    border: 1px solid #edf2f7;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+}
+
+.cashier-login-header {
+    text-align: center;
+}
+
+.cashier-logo {
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 18px;
+    border-radius: 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: 0 16px 34px rgba(74, 144, 217, 0.26);
+}
+
+.cashier-login-header span {
+    display: inline-flex;
+    margin-bottom: 8px;
+    color: #4A90D9;
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.cashier-login-header h1 {
+    margin: 0;
+    color: #1a1a2e;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.cashier-login-header p {
+    margin: 10px auto 28px;
+    max-width: 310px;
+    color: #718096;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.cashier-login-form {
+    display: grid;
+    gap: 16px;
+    text-align: left;
+}
+
+.cashier-input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+.cashier-input-group input {
+    width: 100%;
+    min-height: 54px;
+    padding: 0 16px;
+    border: 1px solid #dce5ef;
+    border-radius: 16px;
+    outline: none;
+    color: #1a1a2e;
+    background: #f8fbff;
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.cashier-input-group input:focus {
+    border-color: #4A90D9;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(74, 144, 217, 0.14);
+}
+
+.cashier-error {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    color: #9b1c1c;
+    background: #fdecea;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.cashier-login-btn {
+    width: 100%;
+    min-height: 54px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 999px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 14px 30px rgba(74, 144, 217, 0.24);
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cashier-login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 38px rgba(74, 144, 217, 0.3);
+}
+
+.cashier-login-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+@media (min-width: 860px) {
+    .cashier-login-page {
+        padding: 36px;
+    }
+
+    .cashier-login-shell {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+        gap: 56px;
+    }
+
+    .cashier-login-info {
+        display: block;
+    }
+
+    .cashier-home-link {
+        display: inline-flex;
+        margin-bottom: 34px;
+        border: none;
+        color: #4A90D9;
+        background: transparent;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .cashier-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 58px;
+    }
+
+    .cashier-brand span {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #4A90D9, #357ABD);
+        font-size: 0.78rem;
+        font-weight: 800;
+    }
+
+    .cashier-brand h2 {
+        margin: 0;
+        color: #1a1a2e;
+        font-size: 1.1rem;
+        font-weight: 800;
+    }
+
+    .cashier-brand p {
+        margin: 2px 0 0;
+        color: #718096;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+
+    .cashier-hero-copy span {
+        display: inline-flex;
+        margin-bottom: 14px;
+        color: #4A90D9;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .cashier-hero-copy h1 {
+        max-width: 560px;
+        margin: 0;
+        color: #1a1a2e;
+        font-size: clamp(2.6rem, 5vw, 4.4rem);
+        line-height: 1.04;
+        font-weight: 800;
+    }
+
+    .cashier-hero-copy p {
+        max-width: 540px;
+        margin: 22px 0 0;
+        color: #4a5568;
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    .cashier-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        max-width: 560px;
+        margin-top: 34px;
+    }
+
+    .cashier-info-grid div {
+        padding: 18px;
+        border: 1px solid #edf2f7;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+    }
+
+    .cashier-info-grid strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #1a1a2e;
+        font-size: 0.9rem;
+    }
+
+    .cashier-info-grid p {
+        margin: 0;
+        color: #718096;
+        font-size: 0.8rem;
+        line-height: 1.55;
+    }
+
+    .cashier-login-card {
+        padding: 44px 40px;
+    }
+}

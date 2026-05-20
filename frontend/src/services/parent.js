@@ -2,6 +2,7 @@ import API from './api';
 
 // Get Dashboard
 export const getDashboard = async () => {
+    console.log('getDashboard called, token:', localStorage.getItem('token') ? 'Yes' : 'No');
     const response = await API.get('/parent/dashboard');
     return response.data;
 };

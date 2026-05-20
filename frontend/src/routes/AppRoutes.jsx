@@ -1,5 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from '../contexts/AuthContext';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import PrivateRoute from './PrivateRoute';
 
 // Common
@@ -32,9 +33,39 @@ import DataImport from '../pages/admin/DataImport';
 import MenuManagement from '../pages/admin/MenuManagement';
 import UserManagement from '../pages/admin/UserManagement';
 
-const AppRoutes = () => {
+// Component to handle back button after logout
+// Component to handle back button after logout
+const RouteGuard = ({ children }) => {
+    const { token, isTokenValid, loading } = useAuth();
+    const location = useLocation();
+
+    // Wait for auth to finish loading
+    if (loading) {
+        return (
+            <div style={{ 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                height: '100vh' 
+            }}>
+                Loading...
+            </div>
+        );
+    }
+
+    // If user is on a protected route but token is invalid/expired
+    const isProtectedRoute = !['/', '/parent/login', '/parent/otp', '/cashier/login', '/admin/login'].includes(location.pathname);
+    
+    if (isProtectedRoute && (!token || !isTokenValid(token))) {
+        return <Navigate to="/" replace />;
+    }
+
+    return children;
+};
+
+const AppRoutesContent = () => {
     return (
-        <AuthProvider>
+        <RouteGuard>
             <Routes>
                 {/* Common */}
                 <Route path="/" element={<RoleSelection />} />
@@ -133,7 +164,18 @@ const AppRoutes = () => {
                         <UserManagement />
                     </PrivateRoute>
                 } />
+                
+                {/* Catch all - redirect to home */}
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+        </RouteGuard>
+    );
+};
+
+const AppRoutes = () => {
+    return (
+        <AuthProvider>
+            <AppRoutesContent />
         </AuthProvider>
     );
 };

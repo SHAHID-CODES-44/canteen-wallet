@@ -13,10 +13,17 @@ const ParentDashboard = () => {
     const [darkMode, setDarkMode] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { user, logout, loading: authLoading } = useAuth();
+
+    // Wait for auth to load token first
+    useEffect(() => {
+        if (!authLoading && user) {
+            console.log('Auth loaded, fetching dashboard data...');
+            fetchAll();
+        }
+    }, [authLoading, user]);
 
     useEffect(() => {
-        fetchAll();
         const savedTheme = localStorage.getItem('parentTheme');
         if (savedTheme) {
             setDarkMode(savedTheme === 'dark');
@@ -33,14 +40,20 @@ const ParentDashboard = () => {
     }, [darkMode]);
 
     const fetchAll = async () => {
+        console.log('fetchAll called');
+        setLoading(true);
         try {
             const [dashRes, studRes] = await Promise.all([
                 getDashboard(),
                 getLinkedStudents()
             ]);
+            console.log('Dashboard response:', dashRes);
+            console.log('Students response:', studRes);
             setDashboard(dashRes.data);
             setStudents(studRes.data);
+            setError('');
         } catch (err) {
+            console.error('Fetch error:', err);
             setError('Failed to load dashboard');
         } finally {
             setLoading(false);
@@ -56,6 +69,21 @@ const ParentDashboard = () => {
     const requestLogout = () => {
         setShowLogoutConfirm(true);
     };
+
+    // Show loading while auth is checking
+    if (authLoading) {
+        return (
+            <div className="loader-screen">
+                <div className="loader-spinner"></div>
+                <p>Verifying your session...</p>
+            </div>
+        );
+    }
+
+    // If no user after auth loaded, redirect will happen in PrivateRoute
+    if (!user) {
+        return null;
+    }
 
     const getGreeting = () => {
         const hour = new Date().getHours();
@@ -115,6 +143,7 @@ const ParentDashboard = () => {
 
     return (
         <div className={`parent-app ${darkMode ? 'dark' : ''}`}>
+            {/* Rest of your JSX remains the same */}
             <button 
                 className="theme-toggle" 
                 onClick={() => setDarkMode(!darkMode)}
