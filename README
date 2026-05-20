@@ -199,14 +199,4 @@ npm run dev
 __________________________________ READ OR UNDERSTAND THIS WITH AI___________________________________
 
 
-
-
-frontend/src/pages/parent/ParentLogin.jsx
-frontend/src/pages/parent/OtpVerification.jsx
-frontend/src/pages/parent/ParentDashboard.jsx
-frontend/src/pages/parent/TopUp.jsx
-frontend/src/pages/parent/TransactionHistory.jsx
-Also share this one too 👇
-frontend/src/contexts/AuthContext.jsx
-frontend/src/services/auth.js
-frontend/src/services/parent.js
+# Last Update On Readme Was on 20 - MAY - 2026 
