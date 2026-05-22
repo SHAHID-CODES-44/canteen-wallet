@@ -74,6 +74,7 @@ const ManualTopUp = () => {
                     <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
                     <div className="admin-nav-item" onClick={() => navigate('/admin/import')}>Data Import</div>
                     <div className="admin-nav-item" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
+                <div className="admin-nav-item" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
                 </nav>
             </div>
 

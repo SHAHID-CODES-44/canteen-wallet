@@ -266,3 +266,19 @@ Send live link to Shaan
 Stack: React.js + Node.js + Express.js + MySQL
 Team: Shahid + Claude + DeepSeek + Codex
 Client: Team Inertia Technologies, Panjim, Goa
+
+
+---------------------------------TESTING PROCESS------------------------------------------
+
+ADMIN TESTING CHECKLIST
+
+Test Order
+1. Admin Login - Passed
+2. Admin Dashboard - Passed
+3. Deposit Overview - Passed
+4. Manual Top Up - Passed
+5. Sales Report - Passed
+6. Menu Management - Passed
+7. User Management - Passed
+8. Data Import - Passed
+9. Barcode Generator - Passed

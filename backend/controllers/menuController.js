@@ -4,7 +4,7 @@ const db = require('../config/db');
 const getMenu = async (req, res) => {
     try {
         const [items] = await db.query(
-            'SELECT ItemID, Name, Rate FROM Menu WHERE Status = "Active" ORDER BY Name ASC'
+            'SELECT ItemID, Name, Rate, Status FROM Menu ORDER BY Name ASC'
         );
 
         return res.status(200).json({

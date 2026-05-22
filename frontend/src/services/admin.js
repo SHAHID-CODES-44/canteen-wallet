@@ -61,3 +61,23 @@ export const getStudents = async () => {
     const response = await API.get('/admin/students');
     return response.data;
 };
+
+export const addParent = async (data) => {
+    const response = await API.post('/admin/parents', data);
+    return response.data;
+};
+
+export const addStudent = async (data) => {
+    const response = await API.post('/admin/students', data);
+    return response.data;
+};
+
+export const getClasses = async () => {
+    const response = await API.get('/admin/classes');
+    return response.data;
+};
+
+export const getDivisions = async () => {
+    const response = await API.get('/admin/divisions');
+    return response.data;
+};

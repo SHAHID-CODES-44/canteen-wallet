@@ -244,6 +244,134 @@ const getStudents = async (req, res) => {
     }
 };
 
+// Add New Parent
+const addParent = async (req, res) => {
+    try {
+        const { name, mobileNum, emailID } = req.body;
+
+        if (!name || !mobileNum || !emailID) {
+            return res.status(400).json({
+                success: false,
+                message: 'Name, mobile number and email are required'
+            });
+        }
+
+        // Check if mobile already exists
+        const [existing] = await db.query(
+            'SELECT PID FROM Parent WHERE MobileNum = ? OR EMailID = ?',
+            [mobileNum, emailID]
+        );
+
+        if (existing.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parent with this mobile or email already exists'
+            });
+        }
+
+        await db.query(
+            'INSERT INTO Parent (Name, MobileNum, EMailID, Balance) VALUES (?, ?, ?, 0.00)',
+            [name, mobileNum, emailID]
+        );
+
+        return res.status(201).json({
+            success: true,
+            message: 'Parent added successfully'
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// Add New Student
+const addStudent = async (req, res) => {
+    try {
+        const { name, permNum, classID, divID, parentID } = req.body;
+
+        if (!name || !permNum || !classID || !divID || !parentID) {
+            return res.status(400).json({
+                success: false,
+                message: 'All fields are required'
+            });
+        }
+
+        // Check if PermNum already exists
+        const [existing] = await db.query(
+            'SELECT SID FROM Student WHERE PermNum = ?',
+            [permNum]
+        );
+
+        if (existing.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Student with this ID already exists'
+            });
+        }
+
+        await db.query(
+            'INSERT INTO Student (Name, PermNum, Class, DivID, ParentID) VALUES (?, ?, ?, ?, ?)',
+            [name, permNum, classID, divID, parentID]
+        );
+
+        return res.status(201).json({
+            success: true,
+            message: 'Student added successfully'
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// Get Classes
+const getClasses = async (req, res) => {
+    try {
+        const [classes] = await db.query(
+            'SELECT * FROM Class_Master WHERE Status = "Active"'
+        );
+        return res.status(200).json({
+            success: true,
+            message: 'Classes fetched successfully',
+            data: classes
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// Get Divisions
+const getDivisions = async (req, res) => {
+    try {
+        const [divisions] = await db.query(
+            'SELECT * FROM Division_Master WHERE Status = "Active"'
+        );
+        return res.status(200).json({
+            success: true,
+            message: 'Divisions fetched successfully',
+            data: divisions
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
 module.exports = { 
     getDashboard, 
     getDeposits, 
@@ -251,5 +379,9 @@ module.exports = {
     getSales, 
     getUsers, 
     createUser,
-    getStudents
+    getStudents,
+    addParent,
+    addStudent,
+    getClasses,
+    getDivisions
 };

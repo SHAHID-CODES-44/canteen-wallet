@@ -17,3 +17,6 @@ backend/.env
 # OS
 .DS_Store
 Thumbs.db
+
+# Database backup
+canteenwallet_backup.sql

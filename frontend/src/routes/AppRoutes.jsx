@@ -33,6 +33,7 @@ import DataImport from '../pages/admin/DataImport';
 import MenuManagement from '../pages/admin/MenuManagement';
 import UserManagement from '../pages/admin/UserManagement';
 import BarcodeGenerator from '../pages/admin/BarcodeGenerator';
+import AddParent from '../pages/admin/AddParent';
 
 // Component to handle back button after logout
 // Component to handle back button after logout
@@ -168,6 +169,11 @@ const AppRoutesContent = () => {
                 <Route path="/admin/barcodes" element={
                     <PrivateRoute role="ADMIN">
                         <BarcodeGenerator />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/add-parent" element={
+                    <PrivateRoute role="ADMIN">
+                        <AddParent />
                     </PrivateRoute>
                 } />
                 
