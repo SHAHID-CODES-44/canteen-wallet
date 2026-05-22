@@ -199,5 +199,70 @@ npm run dev
 __________________________________ READ OR UNDERSTAND THIS WITH AI___________________________________
 
 
-# Last Update On Readme Was on 20 - MAY - 2026 
-# Under Development
+-----------------------------------PROJECT DEVELOPMENT UPDATE SECTION-------------------------------------
+
+CanteenWallet — Project Update
+Date: May 21, 2026
+Status: Development In Progress
+
+What's Done So Far
+Backend
+
+Node.js + Express server running on port 5000
+MySQL database connected with all 9 tables
+JWT authentication for all 3 roles — Parent, Cashier, Admin
+OTP login for parents via Email (Gmail/Nodemailer)
+All REST APIs built and tested — 19 APIs passing
+Role based access control working
+
+Parent App
+
+Login with mobile number + OTP via email
+JWT persistence on page refresh — stays logged in
+Dashboard with real wallet balance and transactions
+Top up wallet (mock — no payment gateway)
+Full transaction history with filters and CSV export
+Linked children section showing today's spending
+Mobile first responsive design
+
+Cashier App
+
+Login with username and password
+Station selection
+Student search by barcode scan, ID number or name search
+Student profile with wallet balance visibility
+Touch friendly menu cart with add/remove items
+Checkout with wallet or cash payment mode
+Coupon generation and print via browser print
+Day summary with item wise sales
+
+Admin Panel
+
+Login with admin credentials
+Dashboard with overview stats
+Deposit overview with all parent balances and low balance filter
+Manual top up for cash payments
+Sales report with date filter and CSV export
+Menu management — add, edit, enable/disable items
+User management — create cashier and admin accounts
+Data import via CSV with preview
+Barcode generator for student ID cards
+
+Infrastructure
+
+GitHub repository set up
+Vercel ready for frontend deployment
+Railway ready for backend and MySQL deployment
+
+
+Pending
+
+Full Admin testing end to end
+Security improvements
+Hosting on Vercel + Railway
+Send live link to Shaan
+
+
+Stack: React.js + Node.js + Express.js + MySQL
+Team: Shahid + Claude + DeepSeek + Codex
+Client: Team Inertia Technologies, Panjim, Goa
