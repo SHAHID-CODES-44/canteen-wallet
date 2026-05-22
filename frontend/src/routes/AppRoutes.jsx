@@ -32,6 +32,7 @@ import SalesReport from '../pages/admin/SalesReport';
 import DataImport from '../pages/admin/DataImport';
 import MenuManagement from '../pages/admin/MenuManagement';
 import UserManagement from '../pages/admin/UserManagement';
+import BarcodeGenerator from '../pages/admin/BarcodeGenerator';
 
 // Component to handle back button after logout
 // Component to handle back button after logout
@@ -42,11 +43,11 @@ const RouteGuard = ({ children }) => {
     // Wait for auth to finish loading
     if (loading) {
         return (
-            <div style={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center', 
-                height: '100vh' 
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh'
             }}>
                 Loading...
             </div>
@@ -55,7 +56,7 @@ const RouteGuard = ({ children }) => {
 
     // If user is on a protected route but token is invalid/expired
     const isProtectedRoute = !['/', '/parent/login', '/parent/otp', '/cashier/login', '/admin/login'].includes(location.pathname);
-    
+
     if (isProtectedRoute && (!token || !isTokenValid(token))) {
         return <Navigate to="/" replace />;
     }
@@ -162,6 +163,11 @@ const AppRoutesContent = () => {
                 <Route path="/admin/users" element={
                     <PrivateRoute role="ADMIN">
                         <UserManagement />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/barcodes" element={
+                    <PrivateRoute role="ADMIN">
+                        <BarcodeGenerator />
                     </PrivateRoute>
                 } />
                 

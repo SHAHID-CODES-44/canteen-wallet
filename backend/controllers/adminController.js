@@ -214,4 +214,42 @@ const createUser = async (req, res) => {
     }
 };
 
-module.exports = { getDashboard, getDeposits, manualTopUp, getSales, getUsers, createUser };
+// Get All Students
+const getStudents = async (req, res) => {
+    try {
+        const [students] = await db.query(
+            `SELECT s.SID, s.Name, s.PermNum,
+                    cm.ClassName, dm.DivName,
+                    p.Name as ParentName
+             FROM Student s
+             JOIN Class_Master cm ON s.Class = cm.ClassID
+             JOIN Division_Master dm ON s.DivID = dm.DivID
+             JOIN Parent p ON s.ParentID = p.PID
+             WHERE s.Status = 'Active'
+             ORDER BY s.Name ASC`
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: 'Students fetched successfully',
+            data: students
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+module.exports = { 
+    getDashboard, 
+    getDeposits, 
+    manualTopUp, 
+    getSales, 
+    getUsers, 
+    createUser,
+    getStudents
+};
