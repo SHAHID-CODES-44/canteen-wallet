@@ -1,12 +1,11 @@
 const db = require('../config/db');
-
 // Get Parent Dashboard
 const getDashboard = async (req, res) => {
     try {
         const parentID = req.user.id;
 
         // Get balance
-        const [parent] = await db.query(
+        let [parent] = await db.query(
             'SELECT PID, Name, Balance FROM Parent WHERE PID = ?',
             [parentID]
         );
@@ -16,6 +15,34 @@ const getDashboard = async (req, res) => {
                 success: false,
                 message: 'Parent not found'
             });
+        }
+
+        // Verify and auto-fix if needed
+        const [txnSum] = await db.query(
+            `SELECT COALESCE(SUM(
+                CASE 
+                    WHEN Type IN ('TOPUP', 'ADJUSTMENT') THEN Amt 
+                    WHEN Type = 'PURCHASE' THEN -Amt 
+                    ELSE 0 
+                END
+            ), 0) as calculated FROM Transactions WHERE ParentID = ?`,
+            [parentID]
+        );
+
+        let currentBalance = parseFloat(parent[0].Balance);
+        const calculatedBalance = parseFloat(txnSum[0].calculated);
+
+        if (currentBalance !== calculatedBalance) {
+            // Update parent balance
+            await db.query('UPDATE Parent SET Balance = ? WHERE PID = ?',
+                [calculatedBalance, parentID]);
+
+            // Refresh parent data with new balance
+            [parent] = await db.query(
+                'SELECT PID, Name, Balance FROM Parent WHERE PID = ?',
+                [parentID]
+            );
+            currentBalance = calculatedBalance;
         }
 
         // Get last 5 transactions
@@ -33,7 +60,7 @@ const getDashboard = async (req, res) => {
             message: 'Dashboard fetched successfully',
             data: {
                 name: parent[0].Name,
-                balance: parent[0].Balance,
+                balance: currentBalance,
                 recentTransactions: transactions
             }
         });
@@ -174,4 +201,96 @@ const getLinkedStudents = async (req, res) => {
     }
 };
 
-module.exports = { getDashboard, getTransactions, topUp, getLinkedStudents };
+// Recalculate balance from transactions
+const recalculateBalance = async (req, res) => {
+    try {
+        const parentID = req.user.id;
+
+        const [transactions] = await db.query(
+            `SELECT Type, Amt FROM Transactions WHERE ParentID = ? ORDER BY Date_Time ASC`,
+            [parentID]
+        );
+
+        let calculatedBalance = 0;
+        for (const txn of transactions) {
+            if (txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT') {
+                calculatedBalance += parseFloat(txn.Amt);
+            } else if (txn.Type === 'PURCHASE') {
+                calculatedBalance -= parseFloat(txn.Amt);
+            }
+        }
+
+        // Update parent balance
+        await db.query('UPDATE Parent SET Balance = ? WHERE PID = ?', [calculatedBalance, parentID]);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Balance recalculated',
+            data: { balance: calculatedBalance }
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// Verify balance matches transactions
+const verifyBalance = async (req, res) => {
+    try {
+        const parentID = req.user.id;
+
+        // Get current balance from Parent table
+        const [parent] = await db.query(
+            'SELECT Balance FROM Parent WHERE PID = ?',
+            [parentID]
+        );
+
+        // Calculate balance from transactions
+        const [txnSum] = await db.query(
+            `SELECT COALESCE(SUM(
+                CASE 
+                    WHEN Type IN ('TOPUP', 'ADJUSTMENT') THEN Amt 
+                    WHEN Type = 'PURCHASE' THEN -Amt 
+                    ELSE 0 
+                END
+            ), 0) as calculated FROM Transactions WHERE ParentID = ?`,
+            [parentID]
+        );
+
+        const currentBalance = parseFloat(parent[0].Balance);
+        const calculatedBalance = parseFloat(txnSum[0].calculated);
+
+        const isMatching = currentBalance === calculatedBalance;
+
+        // Auto-fix if mismatch
+        if (!isMatching) {
+            await db.query(
+                'UPDATE Parent SET Balance = ? WHERE PID = ?',
+                [calculatedBalance, parentID]
+            );
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                currentBalance,
+                calculatedBalance,
+                isMatching,
+                autoFixed: !isMatching
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+module.exports = { getDashboard, getTransactions, topUp, getLinkedStudents, recalculateBalance, verifyBalance };

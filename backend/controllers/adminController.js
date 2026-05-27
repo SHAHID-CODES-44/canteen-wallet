@@ -1,5 +1,9 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
+const csv = require('csv-parser');
+const multer = require('multer');
+const fs = require('fs');
+const upload = multer({ dest: 'uploads/' });
 
 // Get Admin Dashboard
 const getDashboard = async (req, res) => {
@@ -102,6 +106,118 @@ const manualTopUp = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: 'Server error'
+        });
+    }
+};
+
+// CSV Import for Parents List Inside Admin
+const importStudents = async (req, res) => {
+    const filePath = req.file.path;
+    const results = [];
+    const errors = [];
+    let successCount = 0;
+
+    try {
+        // Read CSV file
+        const fileContent = fs.createReadStream(filePath);
+        
+        await new Promise((resolve, reject) => {
+            fileContent
+                .pipe(csv())
+                .on('data', (data) => results.push(data))
+                .on('end', resolve)
+                .on('error', reject);
+        });
+
+        // Process each row
+        for (const row of results) {
+            try {
+                const studentId = row['Student ID'] || row['StudentID'];
+                const studentName = row['Name'];
+                const className = row['Class'];
+                const parentName = row['Parent Name'];
+                const parentMobile = row['Parent Mobile'];
+
+                if (!studentId || !studentName || !className || !parentName || !parentMobile) {
+                    errors.push({ row, error: 'Missing required fields' });
+                    continue;
+                }
+
+                // Get or create Class
+                let classId = null;
+                const [classRows] = await db.query(
+                    'SELECT ClassID FROM Class_Master WHERE ClassName = ?',
+                    [className]
+                );
+                if (classRows.length > 0) {
+                    classId = classRows[0].ClassID;
+                } else {
+                    const [newClass] = await db.query(
+                        'INSERT INTO Class_Master (ClassName, Status) VALUES (?, "Active")',
+                        [className]
+                    );
+                    classId = newClass.insertId;
+                }
+
+                // Get or create Parent
+                let parentId = null;
+                const [parentRows] = await db.query(
+                    'SELECT PID FROM Parent WHERE MobileNum = ?',
+                    [parentMobile]
+                );
+
+                if (parentRows.length > 0) {
+                    parentId = parentRows[0].PID;
+                } else {
+                    const [newParent] = await db.query(
+                        'INSERT INTO Parent (Name, MobileNum, Balance, Status) VALUES (?, ?, 0, "Active")',
+                        [parentName, parentMobile]
+                    );
+                    parentId = newParent.insertId;
+                }
+
+                // Check if Student already exists
+                const [studentRows] = await db.query(
+                    'SELECT SID FROM Student WHERE PermNum = ?',
+                    [studentId]
+                );
+
+                if (studentRows.length > 0) {
+                    // Update existing student
+                    await db.query(
+                        `UPDATE Student SET Name = ?, Class = ?, ParentID = ? WHERE PermNum = ?`,
+                        [studentName, classId, parentId, studentId]
+                    );
+                } else {
+                    // Insert new student
+                    await db.query(
+                        `INSERT INTO Student (PermNum, Name, Class, ParentID, Status) 
+                         VALUES (?, ?, ?, ?, 'Active')`,
+                        [studentId, studentName, classId, parentId]
+                    );
+                }
+                successCount++;
+
+            } catch (rowError) {
+                errors.push({ row, error: rowError.message });
+            }
+        }
+
+        // Clean up uploaded file
+        fs.unlinkSync(filePath);
+
+        return res.status(200).json({
+            success: true,
+            message: `Import completed. ${successCount} successful, ${errors.length} failed.`,
+            data: { successCount, errors }
+        });
+
+    } catch (err) {
+        console.error(err);
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error during import'
         });
     }
 };
@@ -372,6 +488,24 @@ const getDivisions = async (req, res) => {
     }
 };
 
+const getParentsList = async (req, res) => {
+    try {
+        const [rows] = await db.query(
+            'SELECT PID, Name, MobileNum FROM Parent WHERE Status = "Active" ORDER BY Name'
+        );
+        return res.status(200).json({
+            success: true,
+            data: rows
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
 module.exports = { 
     getDashboard, 
     getDeposits, 
@@ -383,5 +517,7 @@ module.exports = {
     addParent,
     addStudent,
     getClasses,
-    getDivisions
+    getDivisions,
+    getParentsList,
+    importStudents
 };

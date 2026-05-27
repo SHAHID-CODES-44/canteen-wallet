@@ -11,10 +11,14 @@ const {
     addParent,
     addStudent,
     getClasses,
-    getDivisions
+    getDivisions,
+    getParentsList,
+    importStudents
 } = require('../controllers/adminController');
 const { protect } = require('../middleware/authMiddleware');
 const { allowRoles } = require('../middleware/roleMiddleware');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 router.get('/dashboard', protect, allowRoles('ADMIN'), getDashboard);
 router.get('/deposits', protect, allowRoles('ADMIN'), getDeposits);
@@ -27,5 +31,7 @@ router.post('/parents', protect, allowRoles('ADMIN'), addParent);
 router.post('/students', protect, allowRoles('ADMIN'), addStudent);
 router.get('/classes', protect, allowRoles('ADMIN'), getClasses);
 router.get('/divisions', protect, allowRoles('ADMIN'), getDivisions);
+router.get('/parents-list', protect, getParentsList);
+router.post('/import-students', protect, upload.single('file'), importStudents);
 
 module.exports = router;
