@@ -4,7 +4,7 @@ import { parentLogin } from '../../services/auth';
 import './ParentLogin.css';
 
 const ParentLogin = () => {
-    const [mobile, setMobile] = useState('');
+    const [identifier, setIdentifier] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -14,12 +14,20 @@ const ParentLogin = () => {
         setError('');
         setLoading(true);
         try {
-            const res = await parentLogin({ mobile });
+            // Send both fields - backend will figure out which one is provided
+            const payload = {};
+            if (identifier.includes('@')) {
+                payload.email = identifier;
+            } else {
+                payload.mobile = identifier;
+            }
+            
+            const res = await parentLogin(payload);
             localStorage.setItem('pid', res.data.pid);
             localStorage.setItem('parentName', res.data.name);
             navigate('/parent/otp');
         } catch (err) {
-            setError(err.response?.data?.message || 'Something went wrong');
+            setError(err.response?.data?.message || 'Parent not found');
         } finally {
             setLoading(false);
         }
@@ -29,21 +37,21 @@ const ParentLogin = () => {
         <main className="parent-auth-page">
             <section className="parent-auth-card">
                 <button className="parent-back-link" type="button" onClick={() => navigate('/')}>
-                    Back to Home
+                    ← Back to Home
                 </button>
 
                 <div className="parent-auth-badge">Parent Portal</div>
                 <h1>Login to CanteenWallet</h1>
-                <p>Enter your registered mobile number to receive a secure OTP.</p>
+                <p>Enter your registered mobile number OR email address to receive OTP.</p>
 
                 <form className="parent-form" onSubmit={handleSubmit}>
-                    <label htmlFor="mobile">Mobile Number</label>
+                    <label htmlFor="identifier">Mobile Number or Email</label>
                     <input
-                        id="mobile"
+                        id="identifier"
                         type="text"
-                        placeholder="Enter mobile number"
-                        value={mobile}
-                        onChange={(e) => setMobile(e.target.value)}
+                        placeholder="Enter mobile number or email address"
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
                         required
                     />
                     {error && <p className="parent-error">{error}</p>}

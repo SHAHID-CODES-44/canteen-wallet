@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getDeposits } from '../../services/admin';
-
+import AdminSidebar from '../../components/AdminSidebar';
 const DepositOverview = () => {
     const [deposits, setDeposits] = useState([]);
     const [filtered, setFiltered] = useState([]);
@@ -29,8 +29,14 @@ const DepositOverview = () => {
     const fetchDeposits = async () => {
         try {
             const res = await getDeposits();
-            setDeposits(res.data);
-            setFiltered(res.data);
+            // Sort by LastTransactionDate - newest first
+            const sortedData = [...res.data].sort((a, b) => {
+                const dateA = a.LastTransactionDate ? new Date(a.LastTransactionDate) : new Date(0);
+                const dateB = b.LastTransactionDate ? new Date(b.LastTransactionDate) : new Date(0);
+                return dateB - dateA;
+            });
+            setDeposits(sortedData);
+            setFiltered(sortedData);
         } catch (err) {
             console.error(err);
         } finally {
@@ -39,11 +45,11 @@ const DepositOverview = () => {
     };
 
     const exportCSV = () => {
-        const headers = ['Name', 'Mobile', 'Email', 'Balance', 'Last Transaction'];
+        const headers = ['Last Transaction Date', 'Parent Name', 'Mobile', 'Email', 'Balance'];
         const rows = filtered.map(p => [
+            p.LastTransactionDate ? new Date(p.LastTransactionDate).toLocaleDateString() : 'Never',
             p.Name, p.MobileNum, p.EMailID,
-            p.Balance,
-            p.LastTransactionDate ? new Date(p.LastTransactionDate).toLocaleDateString() : 'Never'
+            p.Balance
         ]);
         const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv' });
@@ -58,29 +64,12 @@ const DepositOverview = () => {
 
     return (
         <div className="admin-layout">
-            <div className="admin-sidebar">
-                <div className="admin-sidebar-logo">
-                    <div className="admin-logo-icon">CW</div>
-                    <div><h3>CanteenWallet</h3><p>Admin Panel</p></div>
-                </div>
-                <nav className="admin-nav">
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/dashboard')}>Dashboard</div>
-                    <div className="admin-nav-item active" onClick={() => navigate('/admin/deposits')}>Deposits</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/topup')}>Manual Top Up</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/sales')}>Sales Report</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/menu')}>Menu Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/import')}>Data Import</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
-                <div className="admin-nav-item" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
-                </nav>
-            </div>
-
+           <AdminSidebar />
             <div className="admin-main">
                 <div className="admin-page-header">
                     <div>
                         <h1>Deposit Overview</h1>
-                        <p>All parent wallet balances</p>
+                        <p>All parent wallet balances - sorted by latest transaction</p>
                     </div>
                     <button className="admin-export-btn" onClick={exportCSV}>Export CSV</button>
                 </div>
@@ -107,26 +96,27 @@ const DepositOverview = () => {
                     <table className="admin-table">
                         <thead>
                             <tr>
+                                <th>Last Transaction Date</th>
                                 <th>Parent Name</th>
                                 <th>Mobile</th>
                                 <th>Email</th>
                                 <th>Balance</th>
-                                <th>Last Transaction</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filtered.map((parent) => (
                                 <tr key={parent.PID}>
+                                    <td>
+                                        {parent.LastTransactionDate
+                                            ? new Date(parent.LastTransactionDate).toLocaleDateString('en-IN')
+                                            : 'Never'}
+                                    </td>
                                     <td>{parent.Name}</td>
                                     <td>{parent.MobileNum}</td>
                                     <td>{parent.EMailID}</td>
                                     <td className={parseFloat(parent.Balance) < 100 ? 'red-text' : 'green-text'}>
-                                        &#8377;{parseFloat(parent.Balance).toFixed(2)}
-                                    </td>
-                                    <td>{parent.LastTransactionDate
-                                        ? new Date(parent.LastTransactionDate).toLocaleDateString('en-IN')
-                                        : 'Never'}
+                                        ₹{parseFloat(parent.Balance).toFixed(2)}
                                     </td>
                                     <td>
                                         <button

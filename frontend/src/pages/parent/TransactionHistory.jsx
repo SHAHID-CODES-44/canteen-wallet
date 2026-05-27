@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTransactions } from '../../services/parent';
 import './TransactionHistory.css';
+import { useTheme } from '../../contexts/ThemeContext';
+import ParentNav from '../../components/ParentNav';
 
 const TransactionHistory = () => {
     const [transactions, setTransactions] = useState([]);
@@ -13,6 +15,7 @@ const TransactionHistory = () => {
     const [showFilters, setShowFilters] = useState(false);
     const [selectedTxn, setSelectedTxn] = useState(null);
     const navigate = useNavigate();
+    const { isDark } = useTheme();
 
     useEffect(() => { fetchTransactions(); }, []);
     useEffect(() => { applyFilters(); }, [transactions, filterType, dateRange]);
@@ -68,7 +71,7 @@ const TransactionHistory = () => {
     });
 
     const getTypeLabel = (type) => {
-        switch(type) {
+        switch (type) {
             case 'TOPUP': return 'Wallet Top-up';
             case 'PURCHASE': return 'Canteen Purchase';
             case 'ADJUSTMENT': return 'Manual Adjustment';
@@ -77,7 +80,7 @@ const TransactionHistory = () => {
     };
 
     const getTypeInitial = (type) => {
-        switch(type) {
+        switch (type) {
             case 'TOPUP': return 'T';
             case 'PURCHASE': return 'P';
             case 'ADJUSTMENT': return 'A';
@@ -132,221 +135,212 @@ const TransactionHistory = () => {
     );
 
     return (
-        <div className="txh-page">
-            <div className="txh-shell">
+        <div className={`parent-page ${isDark ? 'dark' : 'light'}`}>
+            <ParentNav />
+            <div className="txh-page">
+                <div className="txh-shell">
 
-                {/* HEADER */}
-                <header className="txh-header">
-                    <button className="txh-back-btn" onClick={() => navigate('/parent/dashboard')}>
-                        &#8592; Back
-                    </button>
-                    <div className="txh-header-title">
-                        <span className="txh-label">Wallet Activity</span>
-                        <h1>Transaction History</h1>
-                    </div>
-                    <div className="txh-header-actions">
-                        <button
-                            className={`txh-action-btn ${showFilters ? 'active' : ''}`}
-                            onClick={() => setShowFilters(!showFilters)}
-                        >
-                            Filter
-                        </button>
-                        <button
-                            className="txh-action-btn"
-                            onClick={exportToCSV}
-                            disabled={filteredTransactions.length === 0}
-                        >
-                            Export CSV
-                        </button>
-                    </div>
-                </header>
+                    {/* HEADER */}
+                    <header className="txh-header">
+                        <div className="txh-header-title">
+                            <span className="txh-label">Wallet Activity</span>
+                            <h1>Transaction History</h1>
+                        </div>
+                        <div className="txh-header-actions">
+                            <button
+                                className={`txh-action-btn ${showFilters ? 'active' : ''}`}
+                                onClick={() => setShowFilters(!showFilters)}
+                            >
+                                Filter
+                            </button>
+                            <button
+                                className="txh-action-btn"
+                                onClick={exportToCSV}
+                                disabled={filteredTransactions.length === 0}
+                            >
+                                Export CSV
+                            </button>
+                        </div>
+                    </header>
 
-                {/* FILTERS */}
-                {showFilters && (
-                    <div className="txh-filters">
-                        <div className="txh-filter-group">
-                            <label>Transaction Type</label>
-                            <div className="txh-filter-pills">
-                                {['ALL', 'TOPUP', 'PURCHASE', 'ADJUSTMENT'].map(type => (
-                                    <button
-                                        key={type}
-                                        className={filterType === type ? 'active' : ''}
-                                        onClick={() => setFilterType(type)}
-                                    >
-                                        {type === 'ALL' ? 'All' : getTypeLabel(type)}
-                                    </button>
-                                ))}
+                    {/* FILTERS */}
+                    {showFilters && (
+                        <div className="txh-filters">
+                            <div className="txh-filter-group">
+                                <label>Transaction Type</label>
+                                <div className="txh-filter-pills">
+                                    {['ALL', 'TOPUP', 'PURCHASE', 'ADJUSTMENT'].map(type => (
+                                        <button
+                                            key={type}
+                                            className={filterType === type ? 'active' : ''}
+                                            onClick={() => setFilterType(type)}
+                                        >
+                                            {type === 'ALL' ? 'All' : getTypeLabel(type)}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        <div className="txh-filter-group">
-                            <label>Date Range</label>
-                            <div className="txh-date-range">
-                                <input
-                                    type="date"
-                                    value={dateRange.from}
-                                    onChange={(e) => setDateRange({...dateRange, from: e.target.value})}
-                                />
-                                <span>to</span>
-                                <input
-                                    type="date"
-                                    value={dateRange.to}
-                                    onChange={(e) => setDateRange({...dateRange, to: e.target.value})}
-                                />
+                            <div className="txh-filter-group">
+                                <label>Date Range</label>
+                                <div className="txh-date-range">
+                                    <input
+                                        type="date"
+                                        value={dateRange.from}
+                                        onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })}
+                                    />
+                                    <span>to</span>
+                                    <input
+                                        type="date"
+                                        value={dateRange.to}
+                                        onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <button className="txh-clear-btn" onClick={clearFilters}>
-                            Clear Filters
-                        </button>
-                    </div>
-                )}
-
-                {/* SUMMARY CARDS */}
-                <div className="txh-summary-grid">
-                    <div className="txh-summary-card">
-                        <div className="txh-summary-icon neutral">
-                            <span>&#9776;</span>
-                        </div>
-                        <div>
-                            <p className="txh-summary-label">Total Records</p>
-                            <h2>{filteredTransactions.length}</h2>
-                        </div>
-                    </div>
-                    <div className="txh-summary-card">
-                        <div className="txh-summary-icon credit">
-                            <span>&#8593;</span>
-                        </div>
-                        <div>
-                            <p className="txh-summary-label">Total Credits</p>
-                            <h2 className="credit-text">&#8377;{getTotalCredits()}</h2>
-                        </div>
-                    </div>
-                    <div className="txh-summary-card">
-                        <div className="txh-summary-icon debit">
-                            <span>&#8595;</span>
-                        </div>
-                        <div>
-                            <p className="txh-summary-label">Total Debits</p>
-                            <h2 className="debit-text">&#8377;{getTotalDebits()}</h2>
-                        </div>
-                    </div>
-                </div>
-
-                {/* TRANSACTIONS LIST GROUPED BY DATE */}
-                <div className="txh-list-card">
-                    <div className="txh-list-heading">
-                        <h3>All Transactions</h3>
-                        <p>{filteredTransactions.length} record{filteredTransactions.length !== 1 ? 's' : ''}</p>
-                    </div>
-
-                    {filteredTransactions.length === 0 ? (
-                        <div className="txh-empty">
-                            <div className="txh-empty-icon">&#8203;</div>
-                            <p>No transactions found</p>
-                            <button onClick={clearFilters} className="txh-empty-btn">
+                            <button className="txh-clear-btn" onClick={clearFilters}>
                                 Clear Filters
                             </button>
                         </div>
-                    ) : (
-                        Object.entries(groupedTransactions).map(([date, txns]) => (
-                            <div key={date} className="txh-date-group">
-                                <div className="txh-date-label">{date}</div>
-                                {txns.map((txn, idx) => (
-                                    <div
-                                        key={txn.TID}
-                                        className="txh-row"
-                                        onClick={() => setSelectedTxn(txn)}
-                                    >
-                                        <div className={`txh-row-icon ${txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? 'credit-bg' : 'debit-bg'}`}>
-                                            {getTypeInitial(txn.Type)}
-                                        </div>
-                                        <div className="txh-row-info">
-                                            <p className="txh-row-type">{getTypeLabel(txn.Type)}</p>
-                                            <small className="txh-row-time">{formatTime(txn.Date_Time)}</small>
-                                            {txn.ReferenceID && (
-                                                <small className="txh-row-ref">Ref: #{txn.ReferenceID}</small>
-                                            )}
-                                        </div>
-                                        <div className="txh-row-amount">
-                                            <p className={txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? 'credit-text' : 'debit-text'}>
-                                                {txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? '+' : '-'}&#8377;{parseFloat(txn.Amt).toFixed(2)}
-                                            </p>
-                                            <small>Bal: &#8377;{parseFloat(txn.Balance).toFixed(2)}</small>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ))
                     )}
+
+                    {/* SUMMARY CARDS */}
+                    <div className="txh-summary-grid">
+                        <div className="txh-summary-card">
+                            <div className="txh-summary-icon neutral">
+                                <span>&#9776;</span>
+                            </div>
+                            <div>
+                                <p className="txh-summary-label">Total Records</p>
+                                <h2>{filteredTransactions.length}</h2>
+                            </div>
+                        </div>
+                        <div className="txh-summary-card">
+                            <div className="txh-summary-icon credit">
+                                <span>&#8593;</span>
+                            </div>
+                            <div>
+                                <p className="txh-summary-label">Total Credits</p>
+                                <h2 className="credit-text">&#8377;{getTotalCredits()}</h2>
+                            </div>
+                        </div>
+                        <div className="txh-summary-card">
+                            <div className="txh-summary-icon debit">
+                                <span>&#8595;</span>
+                            </div>
+                            <div>
+                                <p className="txh-summary-label">Total Debits</p>
+                                <h2 className="debit-text">&#8377;{getTotalDebits()}</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* TRANSACTIONS LIST GROUPED BY DATE */}
+                    <div className="txh-list-card">
+                        <div className="txh-list-heading">
+                            <h3>All Transactions</h3>
+                            <p>{filteredTransactions.length} record{filteredTransactions.length !== 1 ? 's' : ''}</p>
+                        </div>
+
+                        {filteredTransactions.length === 0 ? (
+                            <div className="txh-empty">
+                                <div className="txh-empty-icon">&#8203;</div>
+                                <p>No transactions found</p>
+                                <button onClick={clearFilters} className="txh-empty-btn">
+                                    Clear Filters
+                                </button>
+                            </div>
+                        ) : (
+                            Object.entries(groupedTransactions).map(([date, txns]) => (
+                                <div key={date} className="txh-date-group">
+                                    <div className="txh-date-label">{date}</div>
+                                    {txns.map((txn, idx) => (
+                                        <div
+                                            key={txn.TID}
+                                            className="txh-row"
+                                            onClick={() => setSelectedTxn(txn)}
+                                        >
+                                            <div className={`txh-row-icon ${txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? 'credit-bg' : 'debit-bg'}`}>
+                                                {getTypeInitial(txn.Type)}
+                                            </div>
+                                            <div className="txh-row-info">
+                                                <p className="txh-row-type">{getTypeLabel(txn.Type)}</p>
+                                                <small className="txh-row-time">{formatTime(txn.Date_Time)}</small>
+                                                {txn.ReferenceID && (
+                                                    <small className="txh-row-ref">Ref: #{txn.ReferenceID}</small>
+                                                )}
+                                            </div>
+                                            <div className="txh-row-amount">
+                                                <p className={txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? 'credit-text' : 'debit-text'}>
+                                                    {txn.Type === 'TOPUP' || txn.Type === 'ADJUSTMENT' ? '+' : '-'}&#8377;{parseFloat(txn.Amt).toFixed(2)}
+                                                </p>
+                                                <small>Bal: &#8377;{parseFloat(txn.Balance).toFixed(2)}</small>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))
+                        )}
+                    </div>
+
                 </div>
 
-                {/* FOOTER */}
-                <div className="txh-footer">
-                    <button className="txh-footer-btn" onClick={() => navigate('/parent/dashboard')}>
-                        &#8592; Dashboard
-                    </button>
-                    <button className="txh-footer-btn primary" onClick={() => navigate('/parent/topup')}>
-                        + Top Up Wallet
-                    </button>
-                </div>
-            </div>
-
-            {/* TRANSACTION DETAIL MODAL */}
-            {selectedTxn && (
-                <div className="txh-modal-overlay" onClick={() => setSelectedTxn(null)}>
-                    <div className="txh-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="txh-modal-header">
-                            <h3>Transaction Details</h3>
-                            <button className="txh-modal-close" onClick={() => setSelectedTxn(null)}>
-                                &#10005;
+                {/* TRANSACTION DETAIL MODAL */}
+                {selectedTxn && (
+                    <div className="txh-modal-overlay" onClick={() => setSelectedTxn(null)}>
+                        <div className="txh-modal" onClick={(e) => e.stopPropagation()}>
+                            <div className="txh-modal-header">
+                                <h3>Transaction Details</h3>
+                                <button className="txh-modal-close" onClick={() => setSelectedTxn(null)}>
+                                    &#10005;
+                                </button>
+                            </div>
+                            <div className="txh-modal-body">
+                                <div className={`txh-modal-icon ${selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? 'credit-bg' : 'debit-bg'}`}>
+                                    {getTypeInitial(selectedTxn.Type)}
+                                </div>
+                                <p className="txh-modal-amount-label">{getTypeLabel(selectedTxn.Type)}</p>
+                                <h2 className={`txh-modal-amount ${selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? 'credit-text' : 'debit-text'}`}>
+                                    {selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? '+' : '-'}&#8377;{parseFloat(selectedTxn.Amt).toFixed(2)}
+                                </h2>
+                                <div className="txh-modal-details">
+                                    <div className="txh-modal-row">
+                                        <span>Transaction ID</span>
+                                        <span>#{selectedTxn.TID}</span>
+                                    </div>
+                                    <div className="txh-modal-row">
+                                        <span>Date</span>
+                                        <span>{formatDate(selectedTxn.Date_Time)}</span>
+                                    </div>
+                                    <div className="txh-modal-row">
+                                        <span>Time</span>
+                                        <span>{formatTime(selectedTxn.Date_Time)}</span>
+                                    </div>
+                                    <div className="txh-modal-row">
+                                        <span>Type</span>
+                                        <span>{selectedTxn.Type}</span>
+                                    </div>
+                                    <div className="txh-modal-row">
+                                        <span>Balance After</span>
+                                        <span>&#8377;{parseFloat(selectedTxn.Balance).toFixed(2)}</span>
+                                    </div>
+                                    <div className="txh-modal-row">
+                                        <span>Status</span>
+                                        <span className="txh-status">{selectedTxn.Status}</span>
+                                    </div>
+                                    {selectedTxn.ReferenceID && (
+                                        <div className="txh-modal-row">
+                                            <span>Reference</span>
+                                            <span>#{selectedTxn.ReferenceID}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <button className="txh-modal-close-btn" onClick={() => setSelectedTxn(null)}>
+                                Close
                             </button>
                         </div>
-                        <div className="txh-modal-body">
-                            <div className={`txh-modal-icon ${selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? 'credit-bg' : 'debit-bg'}`}>
-                                {getTypeInitial(selectedTxn.Type)}
-                            </div>
-                            <p className="txh-modal-amount-label">{getTypeLabel(selectedTxn.Type)}</p>
-                            <h2 className={`txh-modal-amount ${selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? 'credit-text' : 'debit-text'}`}>
-                                {selectedTxn.Type === 'TOPUP' || selectedTxn.Type === 'ADJUSTMENT' ? '+' : '-'}&#8377;{parseFloat(selectedTxn.Amt).toFixed(2)}
-                            </h2>
-                            <div className="txh-modal-details">
-                                <div className="txh-modal-row">
-                                    <span>Transaction ID</span>
-                                    <span>#{selectedTxn.TID}</span>
-                                </div>
-                                <div className="txh-modal-row">
-                                    <span>Date</span>
-                                    <span>{formatDate(selectedTxn.Date_Time)}</span>
-                                </div>
-                                <div className="txh-modal-row">
-                                    <span>Time</span>
-                                    <span>{formatTime(selectedTxn.Date_Time)}</span>
-                                </div>
-                                <div className="txh-modal-row">
-                                    <span>Type</span>
-                                    <span>{selectedTxn.Type}</span>
-                                </div>
-                                <div className="txh-modal-row">
-                                    <span>Balance After</span>
-                                    <span>&#8377;{parseFloat(selectedTxn.Balance).toFixed(2)}</span>
-                                </div>
-                                <div className="txh-modal-row">
-                                    <span>Status</span>
-                                    <span className="txh-status">{selectedTxn.Status}</span>
-                                </div>
-                                {selectedTxn.ReferenceID && (
-                                    <div className="txh-modal-row">
-                                        <span>Reference</span>
-                                        <span>#{selectedTxn.ReferenceID}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                        <button className="txh-modal-close-btn" onClick={() => setSelectedTxn(null)}>
-                            Close
-                        </button>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

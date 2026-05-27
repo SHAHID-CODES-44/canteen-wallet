@@ -1,109 +1,167 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AdminSidebar from '../../components/AdminSidebar';
+import { importStudents } from '../../services/admin';
+import './DataImport.css';
 
 const DataImport = () => {
     const [file, setFile] = useState(null);
-    const [preview, setPreview] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState('');
+    const [result, setResult] = useState(null);
+    const [importedData, setImportedData] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleFileChange = (e) => {
-        const selectedFile = e.target.files[0];
-        if (!selectedFile) return;
-        setFile(selectedFile);
+        setFile(e.target.files[0]);
+        setResult(null);
+        setImportedData(null);
+        setError('');
+    };
 
-        // Preview CSV
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const text = event.target.result;
-            const lines = text.split('\n').filter(line => line.trim());
-            const rows = lines.map(line => line.split(','));
-            setPreview(rows.slice(0, 6));
-        };
-        reader.readAsText(selectedFile);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!file) {
+            setError('Please select a file');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        setLoading(true);
+        setError('');
+        setResult(null);
+
+        try {
+            const res = await importStudents(formData);
+            setResult(res.data);
+            
+            // Parse and store imported data for preview
+            if (res.data.importedRows) {
+                setImportedData(res.data.importedRows);
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Import failed');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const downloadTemplate = () => {
-        const template = 'StudentName,PermNum,Class,Division,ParentName,ParentMobile,ParentEmail\nAditya Sharma,STU001,8,A,Rahul Sharma,9876543210,rahul@gmail.com';
-        const blob = new Blob([template], { type: 'text/csv' });
+        const csvContent = `Student ID,Name,Class,Parent Name,Parent Mobile\nSTU001,Aditya Sharma,5,Rahul Sharma,9876543210\nSTU002,Priya Sharma,3,Rahul Sharma,9876543210\nSTU003,Arjun Desai,7,Meera Desai,9876543211`;
+        const blob = new Blob([csvContent], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'student_import_template.csv';
         a.click();
+        URL.revokeObjectURL(url);
     };
 
+const viewImportedData = () => {
+    navigate('/admin/students');
+};
     return (
         <div className="admin-layout">
-            <div className="admin-sidebar">
-                <div className="admin-sidebar-logo">
-                    <div className="admin-logo-icon">CW</div>
-                    <div><h3>CanteenWallet</h3><p>Admin Panel</p></div>
-                </div>
-                <nav className="admin-nav">
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/dashboard')}>Dashboard</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/deposits')}>Deposits</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/topup')}>Manual Top Up</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/sales')}>Sales Report</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/menu')}>Menu Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
-                    <div className="admin-nav-item active" onClick={() => navigate('/admin/import')}>Data Import</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
-               <div className="admin-nav-item" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
-                </nav>
-            </div>
-
+            <AdminSidebar />
             <div className="admin-main">
                 <div className="admin-page-header">
                     <div>
-                        <h1>Data Import</h1>
-                        <p>Import student and parent data via CSV</p>
+                        <h1>📥 Import Students</h1>
+                        <p>Upload CSV file to bulk import students and auto-create parent accounts</p>
                     </div>
-                    <button className="admin-export-btn" onClick={downloadTemplate}>
-                        Download Template
-                    </button>
                 </div>
 
                 <div className="admin-card">
-                    <h3>Upload CSV File</h3>
-                    <p style={{ color: '#718096', fontSize: '13px', marginBottom: '16px' }}>
-                        Upload a CSV file with student and parent information. Download the template above for the correct format.
-                    </p>
-                    <input
-                        type="file"
-                        accept=".csv"
-                        onChange={handleFileChange}
-                        className="admin-file-input"
-                    />
+                    <div className="import-info">
+                        <h3>CSV Format Instructions</h3>
+                        <ul>
+                            <li><strong>Student ID</strong> - Unique identifier (e.g., STU001)</li>
+                            <li><strong>Name</strong> - Student's full name</li>
+                            <li><strong>Class</strong> - Class name (auto-created if new)</li>
+                            <li><strong>Parent Name</strong> - Parent's full name</li>
+                            <li><strong>Parent Mobile</strong> - 10-digit mobile number</li>
+                        </ul>
+                        <button className="download-template-btn" onClick={downloadTemplate}>
+                            📥 Download CSV Template
+                        </button>
+                    </div>
 
-                    {preview.length > 0 && (
-                        <div style={{ marginTop: '20px' }}>
-                            <h4 style={{ marginBottom: '12px' }}>Preview (first 5 rows)</h4>
-                            <div style={{ overflowX: 'auto' }}>
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr>
-                                            {preview[0]?.map((header, idx) => (
-                                                <th key={idx}>{header}</th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {preview.slice(1).map((row, idx) => (
-                                            <tr key={idx}>
-                                                {row.map((cell, cellIdx) => (
-                                                    <td key={cellIdx}>{cell}</td>
-                                                ))}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                    <form onSubmit={handleSubmit} className="import-form">
+                        <div className="import-input-group">
+                            <label>Select CSV File</label>
+                            <input
+                                type="file"
+                                accept=".csv"
+                                onChange={handleFileChange}
+                                required
+                            />
+                        </div>
+
+                        {error && <p className="import-error">{error}</p>}
+
+                        <button type="submit" disabled={loading} className="import-btn">
+                            {loading ? '⏳ Importing...' : '🚀 Upload & Import'}
+                        </button>
+                    </form>
+
+                    {/* Import Result Section */}
+                    {result && (
+                        <div className="import-result">
+                            <div className="result-header">
+                                <h3>📊 Import Summary</h3>
+                                {result.successCount > 0 && (
+                                    <button className="view-imported-btn" onClick={viewImportedData}>
+                                        👁️ View Imported Data
+                                    </button>
+                                )}
                             </div>
-                            <p style={{ color: '#718096', fontSize: '12px', marginTop: '8px' }}>
-                                Note: Full CSV import functionality will be connected in the next phase.
-                            </p>
+                            
+                            <div className="result-stats">
+                                <div className="stat-card-success">
+                                    <div className="stat-icon">✅</div>
+                                    <div>
+                                        <span>Successful</span>
+                                        <strong>{result.successCount}</strong>
+                                        <p>records imported</p>
+                                    </div>
+                                </div>
+                                <div className="stat-card-failed">
+                                    <div className="stat-icon">❌</div>
+                                    <div>
+                                        <span>Failed</span>
+                                        <strong>{result.errors?.length || 0}</strong>
+                                        <p>records failed</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Success Message */}
+                            {result.successCount > 0 && (
+                                <div className="import-success-message">
+                                    <span>🎉 Successfully imported {result.successCount} student{result.successCount !== 1 ? 's' : ''}!</span>
+                                    <p>Parent accounts were auto-created for new mobile numbers.</p>
+                                </div>
+                            )}
+
+                            {/* Errors Section */}
+                            {result.errors?.length > 0 && (
+                                <div className="import-errors">
+                                    <h4>⚠️ Errors Details</h4>
+                                    {result.errors.map((err, idx) => (
+                                        <div key={idx} className="error-row">
+                                            <div className="error-row-header">
+                                                <span className="error-badge">Row {idx + 1}</span>
+                                            </div>
+                                            <div className="error-details">
+                                                <p><strong>Error:</strong> {err.error}</p>
+                                                <pre>{JSON.stringify(err.row, null, 2)}</pre>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

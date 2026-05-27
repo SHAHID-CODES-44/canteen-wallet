@@ -1,7 +1,10 @@
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
+import { ThemeProvider } from '../contexts/ThemeContext';
 import PrivateRoute from './PrivateRoute';
+import AddStudent from '../pages/admin/AddStudent';
+
 
 // Common
 import RoleSelection from '../pages/common/RoleSelection';
@@ -34,6 +37,9 @@ import MenuManagement from '../pages/admin/MenuManagement';
 import UserManagement from '../pages/admin/UserManagement';
 import BarcodeGenerator from '../pages/admin/BarcodeGenerator';
 import AddParent from '../pages/admin/AddParent';
+import ParentsList from '../pages/admin/ParentsList';
+import StudentsList from '../pages/admin/StudentsList';
+
 
 // Component to handle back button after logout
 // Component to handle back button after logout
@@ -72,25 +78,33 @@ const AppRoutesContent = () => {
                 {/* Common */}
                 <Route path="/" element={<RoleSelection />} />
 
-                {/* Parent */}
+                {/* Parent - Login and OTP outside ThemeProvider */}
+                {/* Parent - Public Routes (No auth needed) */}
                 <Route path="/parent/login" element={<ParentLogin />} />
                 <Route path="/parent/otp" element={<OtpVerification />} />
-                <Route path="/parent/dashboard" element={
-                    <PrivateRoute role="PARENT">
-                        <ParentDashboard />
-                    </PrivateRoute>
-                } />
-                <Route path="/parent/topup" element={
-                    <PrivateRoute role="PARENT">
-                        <TopUp />
-                    </PrivateRoute>
-                } />
-                <Route path="/parent/transactions" element={
-                    <PrivateRoute role="PARENT">
-                        <TransactionHistory />
-                    </PrivateRoute>
-                } />
 
+                {/* Parent - Protected routes inside ThemeProvider */}
+                <Route path="/parent/*" element={
+                    <ThemeProvider>
+                        <Routes>
+                            <Route path="dashboard" element={
+                                <PrivateRoute role="PARENT">
+                                    <ParentDashboard />
+                                </PrivateRoute>
+                            } />
+                            <Route path="topup" element={
+                                <PrivateRoute role="PARENT">
+                                    <TopUp />
+                                </PrivateRoute>
+                            } />
+                            <Route path="transactions" element={
+                                <PrivateRoute role="PARENT">
+                                    <TransactionHistory />
+                                </PrivateRoute>
+                            } />
+                        </Routes>
+                    </ThemeProvider>
+                } />
                 {/* Cashier */}
                 <Route path="/cashier/login" element={<CashierLogin />} />
                 <Route path="/cashier/station" element={
@@ -176,7 +190,21 @@ const AppRoutesContent = () => {
                         <AddParent />
                     </PrivateRoute>
                 } />
-                
+                <Route path="/admin/parents" element={
+                    <PrivateRoute role="ADMIN">
+                        <ParentsList />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/students" element={
+                    <PrivateRoute role="ADMIN">
+                        <StudentsList />
+                    </PrivateRoute>
+                } />
+                <Route path="/admin/add-student" element={
+                    <PrivateRoute role="ADMIN">
+                        <AddStudent />
+                    </PrivateRoute>
+                } />
                 {/* Catch all - redirect to home */}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addParent, addStudent, getClasses, getDivisions, getDeposits } from '../../services/admin';
+import AdminSidebar from '../../components/AdminSidebar';
 
 const AddParent = () => {
     const [step, setStep] = useState(1);
@@ -87,23 +88,7 @@ const AddParent = () => {
 
     return (
         <div className="admin-layout">
-            <div className="admin-sidebar">
-                <div className="admin-sidebar-logo">
-                    <div className="admin-logo-icon">CW</div>
-                    <div><h3>CanteenWallet</h3><p>Admin Panel</p></div>
-                </div>
-                <nav className="admin-nav">
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/dashboard')}>Dashboard</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/deposits')}>Deposits</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/topup')}>Manual Top Up</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/sales')}>Sales Report</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/menu')}>Menu Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/import')}>Data Import</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
-                    <div className="admin-nav-item active" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
-                </nav>
-            </div>
+           <AdminSidebar />
 
             <div className="admin-main">
                 <div className="admin-page-header">

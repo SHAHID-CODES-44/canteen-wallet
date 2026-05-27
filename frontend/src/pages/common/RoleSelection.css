@@ -942,3 +942,75 @@
     max-width: 100%;
   }
 }
+
+/* Mobile Optimizations - Navbar & Hero */
+@media (max-width: 640px) {
+  .role-navbar {
+    padding: 8px 16px;
+    border-radius: 40px;
+    width: calc(100% - 20px);
+  }
+
+  .role-logo span:last-child {
+    font-size: 0.85rem;
+  }
+
+  .role-logo-mark {
+    width: 30px;
+    height: 30px;
+    font-size: 0.6rem;
+  }
+
+  .role-hero {
+    padding: 20px 0 30px;
+    margin-top: 16px;
+  }
+
+  .role-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .role-hero p {
+    font-size: 0.85rem;
+    margin: 12px 0 20px;
+  }
+
+  .role-hero-buttons button {
+    padding: 10px 20px;
+    font-size: 0.8rem;
+  }
+
+  .role-hero-image {
+    min-height: 320px;
+  }
+
+  .role-hero-card {
+    top: 12px;
+    right: 12px;
+    width: 140px;
+    padding: 10px;
+  }
+
+  .role-hero-card strong {
+    font-size: 1.2rem;
+  }
+
+  .role-hero-card p {
+    font-size: 0.65rem;
+  }
+
+  .role-hero-stats {
+    padding: 10px 12px;
+  }
+
+  .role-stat-number {
+    font-size: 0.8rem;
+  }
+
+  .role-stat-label {
+    font-size: 0.5rem;
+  }
+  
+}
+
+  

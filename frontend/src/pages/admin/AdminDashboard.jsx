@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAdminDashboard } from '../../services/admin';
 import { useAuth } from '../../contexts/AuthContext';
+import AdminSidebar from '../../components/AdminSidebar';
 
 const AdminDashboard = () => {
     const [dashboard, setDashboard] = useState(null);
@@ -62,31 +63,8 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-            {/* SIDEBAR */}
-            <div className="admin-sidebar">
-                <div className="admin-sidebar-logo">
-                    <div className="admin-logo-icon">CW</div>
-                    <div>
-                        <h3>CanteenWallet</h3>
-                        <p>Admin Panel</p>
-                    </div>
-                </div>
-                <nav className="admin-nav">
-                    <div className="admin-nav-item active" onClick={() => navigate('/admin/dashboard')}>Dashboard</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/deposits')}>Deposits</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/topup')}>Manual Top Up</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/sales')}>Sales Report</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/menu')}>Menu Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/import')}>Data Import</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
-               <div className="admin-nav-item" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
-                </nav>
-                <div className="admin-sidebar-footer">
-                    <p>{user?.name}</p>
-                    <button onClick={handleLogoutClick}>Logout</button>
-                </div>
-            </div>
+            {/* SIDEBAR - NOW JUST ONE LINE */}
+            <AdminSidebar />
 
             {/* MAIN CONTENT */}
             <div className="admin-main">

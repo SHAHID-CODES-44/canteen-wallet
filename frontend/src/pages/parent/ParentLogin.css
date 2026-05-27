@@ -184,3 +184,65 @@
         font-size: 1.65rem;
     }
 }
+
+/* Login Mode Toggle */
+.login-mode-toggle {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0 24px;
+    background: #f1f3f5;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #6c757d;
+    font-family: 'Poppins', sans-serif;
+}
+
+.mode-btn.active {
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    color: white;
+    box-shadow: 0 2px 8px rgba(74, 144, 217, 0.3);
+}
+
+.parent-signup-link {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 13px;
+    color: #718096;
+}
+
+.parent-signup-link span {
+    color: #4A90D9;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.parent-signup-link span:hover {
+    text-decoration: underline;
+}
+
+.signup-link-btn {
+    background: none;
+    border: none;
+    color: #4A90D9;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.signup-link-btn:hover {
+    color: #357ABD;
+}

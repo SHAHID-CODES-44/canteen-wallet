@@ -1,0 +1,520 @@
+/* ========== PARENT NAVIGATION - PROFESSIONAL DESIGN ========== */
+
+/* ========== DESKTOP SIDEBAR ========== */
+.parent-sidebar {
+    width: 280px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+/* Dark Theme Sidebar */
+.parent-sidebar.dark {
+    background: #1A1A2E;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Light Theme Sidebar */
+.parent-sidebar.light {
+    background: #ffffff;
+    border-right: 1px solid #e9ecef;
+}
+
+/* Sidebar Header */
+.parent-sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 24px;
+    position: relative;
+}
+
+.parent-sidebar.dark .parent-sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.parent-sidebar.light .parent-sidebar-header {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.parent-logo {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 800;
+    font-size: 18px;
+    box-shadow: 0 4px 10px rgba(74, 144, 217, 0.3);
+}
+
+.parent-sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.parent-sidebar.dark .parent-sidebar-header h3 {
+    color: white;
+}
+
+.parent-sidebar.light .parent-sidebar-header h3 {
+    color: #1a1a2e;
+}
+
+.parent-sidebar-header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+}
+
+.parent-sidebar.dark .parent-sidebar-header p {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.parent-sidebar.light .parent-sidebar-header p {
+    color: #6c757d;
+}
+
+/* Theme Toggle Button in Sidebar */
+.parent-theme-toggle {
+    position: absolute;
+    right: 20px;
+    top: 28px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: transparent;
+}
+
+.parent-sidebar.dark .parent-theme-toggle {
+    color: #f5b042;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.parent-sidebar.light .parent-theme-toggle {
+    color: #4A90D9;
+    background: #f5f7fa;
+}
+
+.parent-theme-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* Sidebar Navigation */
+.parent-sidebar-nav {
+    flex: 1;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.parent-sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    text-align: left;
+}
+
+.parent-sidebar.dark .parent-sidebar-item {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.parent-sidebar.light .parent-sidebar-item {
+    color: #4a5568;
+}
+
+.parent-sidebar-item:hover {
+    transform: translateX(4px);
+}
+
+.parent-sidebar.dark .parent-sidebar-item:hover {
+    background: rgba(74, 144, 217, 0.15);
+    color: white;
+}
+
+.parent-sidebar.light .parent-sidebar-item:hover {
+    background: #f5f7fa;
+    color: #4A90D9;
+}
+
+.parent-sidebar-item.active {
+    font-weight: 600;
+}
+
+.parent-sidebar.dark .parent-sidebar-item.active {
+    background: #4A90D9;
+    color: white;
+}
+
+.parent-sidebar.light .parent-sidebar-item.active {
+    background: #e8f0fe;
+    color: #4A90D9;
+}
+
+.parent-nav-icon {
+    width: 28px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.parent-sidebar-item.logout {
+    margin-top: 20px;
+}
+
+.parent-sidebar.dark .parent-sidebar-item.logout {
+    color: #ff6b6b;
+}
+
+.parent-sidebar.light .parent-sidebar-item.logout {
+    color: #dc3545;
+}
+
+.parent-sidebar.dark .parent-sidebar-item.logout:hover {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+}
+
+.parent-sidebar.light .parent-sidebar-item.logout:hover {
+    background: #fff5f5;
+    color: #dc3545;
+}
+
+/* Sidebar Footer */
+.parent-sidebar-footer {
+    padding: 20px 24px;
+}
+
+.parent-sidebar.dark .parent-sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.parent-sidebar.light .parent-sidebar-footer {
+    border-top: 1px solid #e9ecef;
+}
+
+.parent-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.parent-user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.parent-sidebar.dark .parent-user-avatar {
+    background: #4A90D9;
+    color: white;
+}
+
+.parent-sidebar.light .parent-user-avatar {
+    background: #4A90D9;
+    color: white;
+}
+
+.parent-user-info p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.parent-sidebar.dark .parent-user-info p {
+    color: white;
+}
+
+.parent-sidebar.light .parent-user-info p {
+    color: #1a1a2e;
+}
+
+.parent-user-info span {
+    margin: 4px 0 0;
+    font-size: 11px;
+}
+
+.parent-sidebar.dark .parent-user-info span {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.parent-sidebar.light .parent-user-info span {
+    color: #6c757d;
+}
+
+/* ========== MOBILE BOTTOM NAVIGATION ========== */
+.parent-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 12px 24px;
+    z-index: 100;
+}
+
+.parent-bottom-nav.dark {
+    background: #1A1A2E;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.parent-bottom-nav.light {
+    background: #ffffff;
+    border-top: 1px solid #e9ecef;
+}
+
+.parent-bottom-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+
+.parent-bottom-nav.dark .parent-bottom-item {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.parent-bottom-nav.light .parent-bottom-item {
+    color: #6c757d;
+}
+
+.parent-bottom-nav.dark .parent-bottom-item.active {
+    color: #4A90D9;
+}
+
+.parent-bottom-nav.light .parent-bottom-item.active {
+    color: #4A90D9;
+}
+
+.parent-bottom-icon {
+    font-size: 22px;
+}
+
+.parent-bottom-item span:last-child {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+/* ========== LOGOUT MODAL ========== */
+.parent-logout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.parent-logout-modal {
+    width: 380px;
+    padding: 28px;
+    border-radius: 24px;
+    text-align: center;
+    animation: slideUp 0.3s ease;
+}
+
+.parent-logout-modal.dark {
+    background: #1A1A2E;
+}
+
+.parent-logout-modal.light {
+    background: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.parent-logout-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+.parent-logout-modal.dark .parent-logout-badge {
+    background: rgba(74, 144, 217, 0.2);
+    color: #4A90D9;
+}
+
+.parent-logout-modal.light .parent-logout-badge {
+    background: #e8f0fe;
+    color: #4A90D9;
+}
+
+.parent-logout-modal h3 {
+    margin: 0 0 12px;
+    font-size: 20px;
+}
+
+.parent-logout-modal.dark h3 {
+    color: white;
+}
+
+.parent-logout-modal.light h3 {
+    color: #1a1a2e;
+}
+
+.parent-logout-modal p {
+    margin: 0 0 24px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.parent-logout-modal.dark p {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.parent-logout-modal.light p {
+    color: #6c757d;
+}
+
+.parent-logout-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.parent-logout-buttons button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.parent-logout-cancel {
+    background: transparent;
+    border: 1px solid;
+}
+
+.parent-logout-modal.dark .parent-logout-cancel {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.parent-logout-modal.light .parent-logout-cancel {
+    border-color: #e9ecef;
+    color: #4a5568;
+}
+
+.parent-logout-cancel:hover {
+    transform: translateY(-2px);
+}
+
+.parent-logout-modal.dark .parent-logout-cancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.parent-logout-modal.light .parent-logout-cancel:hover {
+    background: #f5f7fa;
+}
+
+.parent-logout-confirm {
+    border: none;
+    background: #dc3545;
+    color: white;
+}
+
+.parent-logout-confirm:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .parent-sidebar {
+        display: none;
+    }
+    
+    .parent-bottom-nav {
+        display: flex;
+    }
+}
+
+@media (min-width: 769px) {
+    .parent-bottom-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .parent-bottom-item {
+        padding: 6px 12px;
+    }
+    
+    .parent-bottom-icon {
+        font-size: 20px;
+    }
+    
+    .parent-bottom-item span:last-child {
+        font-size: 9px;
+    }
+    
+    .parent-logout-modal {
+        width: 90%;
+        margin: 0 16px;
+        padding: 24px;
+    }
+}

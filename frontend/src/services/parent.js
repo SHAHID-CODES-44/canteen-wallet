@@ -24,3 +24,21 @@ export const getLinkedStudents = async () => {
     const response = await API.get('/parent/students');
     return response.data;
 };
+
+// Verify Pin for Transaction
+export const verifyTransactionPin = async (data) => {
+    const response = await API.post('/auth/parent/verify-pin', data);
+    return response.data;
+};
+
+// Check if Having Pin
+export const checkHasPin = async (data) => {
+    const response = await API.post('/auth/parent/check-pin', data);
+    return response.data;
+};
+
+// Set Pin for Topup
+export const setTransactionPin = async (data) => {
+    const response = await API.post('/auth/parent/set-pin', data);
+    return response.data;
+};

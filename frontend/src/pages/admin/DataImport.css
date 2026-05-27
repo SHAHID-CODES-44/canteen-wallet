@@ -1,0 +1,357 @@
+/* Data Import Page Styles */
+
+.import-info {
+    background: #f8fbff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 28px;
+    border: 1px solid #e9ecef;
+}
+
+.import-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #1a1a2e;
+}
+
+.import-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.import-info li {
+    padding: 6px 0;
+    font-size: 13px;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.import-info li::before {
+    content: "•";
+    color: #4A90D9;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.download-template-btn {
+    background: #4A90D9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.download-template-btn:hover {
+    background: #357ABD;
+    transform: translateY(-2px);
+}
+
+.import-form {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.import-input-group {
+    margin-bottom: 20px;
+}
+
+.import-input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+}
+
+.import-input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: white;
+}
+
+.import-input-group input:focus {
+    outline: none;
+    border-color: #4A90D9;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.1);
+}
+
+.import-error {
+    padding: 12px;
+    background: #fdecea;
+    border-radius: 10px;
+    color: #E53E3E;
+    font-size: 13px;
+    margin: 12px 0;
+}
+
+.import-btn {
+    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 40px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.import-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.3);
+}
+
+.import-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Import Result Section */
+.import-result {
+    margin-top: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.result-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.view-imported-btn {
+    background: #e8f0fe;
+    color: #4A90D9;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-imported-btn:hover {
+    background: #d4e4fc;
+    transform: translateY(-2px);
+}
+
+.result-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card-success,
+.stat-card-failed {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #e9ecef;
+    transition: all 0.2s;
+}
+
+.stat-card-success {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-color: #bbf7d0;
+}
+
+.stat-card-failed {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-color: #fecaca;
+}
+
+.stat-icon {
+    font-size: 36px;
+}
+
+.stat-card-success span,
+.stat-card-failed span {
+    font-size: 12px;
+    color: #6c757d;
+    display: block;
+}
+
+.stat-card-success strong,
+.stat-card-failed strong {
+    font-size: 28px;
+    font-weight: 800;
+    display: block;
+    margin: 4px 0;
+}
+
+.stat-card-success strong {
+    color: #0B8A00;
+}
+
+.stat-card-failed strong {
+    color: #E53E3E;
+}
+
+.stat-card-success p,
+.stat-card-failed p {
+    font-size: 11px;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Success Message */
+.import-success-message {
+    background: #e8f5e9;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border-left: 4px solid #0B8A00;
+}
+
+.import-success-message span {
+    display: block;
+    font-weight: 700;
+    color: #0B8A00;
+    margin-bottom: 6px;
+}
+
+.import-success-message p {
+    font-size: 13px;
+    color: #2e7d32;
+    margin: 0;
+}
+
+/* Errors Section */
+.import-errors {
+    background: #fef2f2;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #fecaca;
+}
+
+.import-errors h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #991b1b;
+    margin-bottom: 16px;
+}
+
+.error-row {
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #fee2e2;
+}
+
+.error-row-header {
+    margin-bottom: 8px;
+}
+
+.error-badge {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.error-details p {
+    font-size: 12px;
+    color: #991b1b;
+    margin: 0 0 8px 0;
+}
+
+.error-details pre {
+    font-size: 11px;
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    margin: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Dark Mode Support */
+.parent-page.dark .import-info {
+    background: #1e1e2e;
+    border-color: #2d2d3e;
+}
+
+.parent-page.dark .import-info h3,
+.parent-page.dark .import-info li {
+    color: #e2e8f0;
+}
+
+.parent-page.dark .stat-card-success,
+.parent-page.dark .stat-card-failed {
+    background: #1e1e2e;
+    border-color: #2d2d3e;
+}
+
+.parent-page.dark .import-success-message {
+    background: #0f2e14;
+    border-left-color: #0B8A00;
+}
+
+.parent-page.dark .import-success-message span {
+    color: #4caf50;
+}
+
+.parent-page.dark .import-success-message p {
+    color: #81c784;
+}
+
+.parent-page.dark .import-errors {
+    background: #2d1a1a;
+    border-color: #7f1a1a;
+}
+
+.parent-page.dark .error-row {
+    background: #1e1e2e;
+}
+
+@media (max-width: 768px) {
+    .result-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .result-header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}

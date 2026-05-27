@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import JsBarcode from 'jsbarcode';
 import { getStudents } from '../../services/admin';
+import AdminSidebar from '../../components/AdminSidebar';
 
 const BarcodeGenerator = () => {
     const [students, setStudents] = useState([]);
@@ -58,24 +59,10 @@ const BarcodeGenerator = () => {
 
     return (
         <div className="admin-layout">
-            <div className="admin-sidebar no-print">
-                <div className="admin-sidebar-logo">
-                    <div className="admin-logo-icon">CW</div>
-                    <div><h3>CanteenWallet</h3><p>Admin Panel</p></div>
-                </div>
-                <nav className="admin-nav">
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/dashboard')}>Dashboard</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/deposits')}>Deposits</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/topup')}>Manual Top Up</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/sales')}>Sales Report</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/menu')}>Menu Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/users')}>User Management</div>
-                    <div className="admin-nav-item" onClick={() => navigate('/admin/import')}>Data Import</div>
-                    <div className="admin-nav-item active" onClick={() => navigate('/admin/barcodes')}>Barcode Generator</div>
-                <div className="admin-nav-item" onClick={() => navigate('/admin/add-parent')}>Add Parent</div>
-                </nav>
-            </div>
+            {/* SIDEBAR - REPLACED WITH COMPONENT */}
+            <AdminSidebar />
 
+            {/* MAIN CONTENT */}
             <div className="admin-main">
                 <div className="admin-page-header no-print">
                     <div>

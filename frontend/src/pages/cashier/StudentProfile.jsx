@@ -9,7 +9,10 @@ const StudentProfile = () => {
 
     useEffect(() => {
         const data = localStorage.getItem('selectedStudent');
-        if (!data) { navigate('/cashier/search'); return; }
+        if (!data) { 
+            navigate('/cashier/search'); 
+            return; 
+        }
         setStudent(JSON.parse(data));
     }, []);
 
@@ -18,62 +21,76 @@ const StudentProfile = () => {
         navigate('/cashier/cart');
     };
 
-    const isLowBalance = student && parseFloat(student.Balance) < 50;
-
     if (!student) return null;
 
+    const balance = parseFloat(student.Balance || 0);
+    const isLowBalance = balance < 50;
+
     return (
-        <div className="profile-page">
-            <div className="profile-topbar">
-                <button className="profile-back" onClick={() => navigate('/cashier/search')}>
-                    &#8592; Back to Search
+        <div className="student-profile-page">
+            <div className="profile-header">
+                <button className="back-btn" onClick={() => navigate('/cashier/search')}>
+                    ← Back
                 </button>
-                <h2>Student Profile</h2>
-                <div></div>
+                <div className="header-station">
+                    Station: {localStorage.getItem('stationName') || 'Counter 1'}
+                </div>
             </div>
 
-            <div className="profile-content">
-                <div className="profile-card">
-                    <div className="profile-avatar">
-                        {student.Name.charAt(0)}
+            <div className="profile-container">
+                {/* Student Card */}
+                <div className="student-card-large">
+                    <div className="student-avatar-large">
+                        {student.Name?.charAt(0) || 'S'}
                     </div>
-                    <h1>{student.Name}</h1>
-                    <p>{student.ClassName} — Division {student.DivName}</p>
-                    <p className="profile-id">ID: {student.PermNum}</p>
+                    <h2>{student.Name}</h2>
+                    <p className="student-class">{student.ClassName} • Division {student.DivName}</p>
+                    <p className="student-id">ID: {student.PermNum}</p>
                 </div>
 
-                <div className="profile-balance-card">
-                    <p className="balance-label">Parent Wallet Balance</p>
-                    <h2 className={isLowBalance ? 'low' : ''}>
-                        &#8377;{parseFloat(student.Balance).toFixed(2)}
-                    </h2>
+                {/* Balance Card */}
+                <div className={`balance-card ${isLowBalance ? 'low' : ''}`}>
+                    <span className="balance-label">Parent Wallet Balance</span>
+                    <div className="balance-amount">₹{balance.toFixed(2)}</div>
                     {isLowBalance && (
-                        <p className="low-warning">Low balance — consider cash payment</p>
+                        <div className="balance-warning">
+                            Low balance - Consider cash payment
+                        </div>
                     )}
                 </div>
 
-                <div className="profile-payment-mode">
-                    <p className="mode-label">Select Payment Mode</p>
-                    <div className="mode-options">
+                {/* Payment Mode Selection */}
+                <div className="payment-section">
+                    <p className="section-label">Payment Method</p>
+                    <div className="payment-options">
                         <div
-                            className={`mode-card ${paymentMode === 'Wallet' ? 'active' : ''}`}
+                            className={`payment-option ${paymentMode === 'Wallet' ? 'active' : ''}`}
                             onClick={() => setPaymentMode('Wallet')}
                         >
-                            <h3>Wallet</h3>
-                            <p>Deduct from parent wallet</p>
+                           
+                            <div>
+                                <h4>Wallet</h4>
+                                <p>Deduct from parent wallet</p>
+                            </div>
+                            {paymentMode === 'Wallet' && <span className="check-mark">✓</span>}
                         </div>
                         <div
-                            className={`mode-card ${paymentMode === 'Cash' ? 'active' : ''}`}
+                            className={`payment-option ${paymentMode === 'Cash' ? 'active' : ''}`}
                             onClick={() => setPaymentMode('Cash')}
                         >
-                            <h3>Cash</h3>
-                            <p>Collect cash from student</p>
+                        
+                            <div>
+                                <h4>Cash</h4>
+                                <p>Collect cash from student</p>
+                            </div>
+                            {paymentMode === 'Cash' && <span className="check-mark">✓</span>}
                         </div>
                     </div>
                 </div>
 
-                <button className="profile-proceed-btn" onClick={handleProceed}>
-                    Add Items to Cart &#8594;
+                {/* Proceed Button */}
+                <button className="proceed-btn" onClick={handleProceed}>
+                    Add Items to Cart →
                 </button>
             </div>
         </div>

@@ -26,62 +26,85 @@ const DaySummary = () => {
     };
 
     if (loading) return (
-        <div className="summary-loading">Loading day summary...</div>
+        <div className="summary-loading">
+            <div className="summary-spinner"></div>
+            <p>Loading day summary...</p>
+        </div>
     );
 
     if (error) return (
-        <div className="summary-loading">{error}</div>
+        <div className="summary-error">
+            <p>{error}</p>
+            <button onClick={fetchSummary}>Retry</button>
+        </div>
     );
 
     return (
-        <div className="summary-page">
-            <div className="summary-topbar">
-                <button className="summary-back" onClick={() => navigate('/cashier/search')}>
-                    &#8592; Back
+        <div className="day-summary-page">
+            {/* Header */}
+            <div className="summary-header">
+                <button className="summary-back-btn" onClick={() => navigate('/cashier/search')}>
+                    ← Back
                 </button>
-                <h2>Day Summary</h2>
-                <div></div>
+                <div className="summary-header-info">
+                    <span className="summary-station">{station?.name || 'Counter 1'}</span>
+                    <h1>Day Summary</h1>
+                    <p>{new Date().toLocaleDateString('en-IN', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    })}</p>
+                </div>
+                <div className="summary-placeholder"></div>
             </div>
 
-            <div className="summary-content">
-                <div className="summary-date">
-                    <p>{station?.name || 'Counter'}</p>
-                    <h3>{new Date().toLocaleDateString('en-IN', {
-                        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-                    })}</h3>
-                </div>
-
-                {/* OVERVIEW CARDS */}
-                <div className="summary-grid">
-                    <div className="summary-card">
-                        <p className="summary-card-label">Total Coupons</p>
-                        <h2>{summary?.summary?.TotalCoupons || 0}</h2>
-                    </div>
-                    <div className="summary-card green-card">
-                        <p className="summary-card-label">Wallet Total</p>
-                        <h2>&#8377;{parseFloat(summary?.summary?.WalletTotal || 0).toFixed(2)}</h2>
-                    </div>
-                    <div className="summary-card blue-card">
-                        <p className="summary-card-label">Cash Total</p>
-                        <h2>&#8377;{parseFloat(summary?.summary?.CashTotal || 0).toFixed(2)}</h2>
-                    </div>
-                    <div className="summary-card dark-card">
-                        <p className="summary-card-label">Grand Total</p>
-                        <h2>&#8377;{parseFloat(summary?.summary?.GrandTotal || 0).toFixed(2)}</h2>
+            {/* Stats Grid */}
+            <div className="summary-stats-grid">
+                <div className="stat-card">
+                    <div>
+                        <span className="stat-label">Total Coupons</span>
+                        <strong className="stat-value">{summary?.summary?.TotalCoupons || 0}</strong>
                     </div>
                 </div>
+                <div className="stat-card wallet">
+                    <div>
+                        <span className="stat-label">Wallet Sales</span>
+                        <strong className="stat-value">₹{parseFloat(summary?.summary?.WalletTotal || 0).toFixed(2)}</strong>
+                    </div>
+                </div>
+                <div className="stat-card cash">
+                    <div>
+                        <span className="stat-label">Cash Sales</span>
+                        <strong className="stat-value">₹{parseFloat(summary?.summary?.CashTotal || 0).toFixed(2)}</strong>
+                    </div>
+                </div>
+                <div className="stat-card total">
+                    <div>
+                        <span className="stat-label">Grand Total</span>
+                        <strong className="stat-value">₹{parseFloat(summary?.summary?.GrandTotal || 0).toFixed(2)}</strong>
+                    </div>
+                </div>
+            </div>
 
-                {/* ITEM WISE */}
-                <div className="summary-table-card">
-                    <h3 className="summary-table-title">Item Wise Sales</h3>
-                    {summary?.itemWise?.length === 0 ? (
-                        <p className="summary-empty">No sales recorded today</p>
-                    ) : (
+            {/* Item Wise Sales Table */}
+            <div className="summary-table-wrapper">
+                <div className="table-header">
+                    <h3>Item Wise Sales</h3>
+                    <span className="record-count">{summary?.itemWise?.length || 0} items</span>
+                </div>
+                
+                {summary?.itemWise?.length === 0 ? (
+                    <div className="empty-state">
+                        <p>No sales recorded today</p>
+                    </div>
+                ) : (
+                    <div className="table-responsive">
                         <table className="summary-table">
                             <thead>
                                 <tr>
-                                    <th>Item</th>
-                                    <th>Qty Sold</th>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
                                     <th>Revenue</th>
                                 </tr>
                             </thead>
@@ -90,13 +113,23 @@ const DaySummary = () => {
                                     <tr key={idx}>
                                         <td>{item.ItemName}</td>
                                         <td>{item.QuantitySold}</td>
-                                        <td>&#8377;{parseFloat(item.TotalRevenue).toFixed(2)}</td>
+                                        <td>₹{parseFloat(item.TotalRevenue).toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                    )}
-                </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="summary-footer">
+                <button className="print-summary-btn" onClick={() => window.print()}>
+                    Print Summary
+                </button>
+                <button className="refresh-summary-btn" onClick={fetchSummary}>
+                    Refresh
+                </button>
             </div>
         </div>
     );

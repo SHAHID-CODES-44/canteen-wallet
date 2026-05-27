@@ -18,10 +18,14 @@ const OtpVerification = () => {
         try {
             const pid = localStorage.getItem('pid');
             const res = await verifyOTP({ pid: parseInt(pid), otp });
+
+            // ✅ FIX: Include pid in user object
             login(res.data.token, {
                 name: res.data.name,
-                role: res.data.role
+                role: res.data.role,
+                pid: parseInt(pid)  // Add this line
             });
+
             localStorage.removeItem('pid');
             navigate('/parent/dashboard');
         } catch (err) {

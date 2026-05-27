@@ -81,3 +81,17 @@ export const getDivisions = async () => {
     const response = await API.get('/admin/divisions');
     return response.data;
 };
+
+// Get all parents (for dropdown)
+export const getParents = async () => {
+    const response = await API.get('/admin/parents-list');
+    return response.data;
+};
+
+// Import students from CSV
+export const importStudents = async (formData) => {
+    const response = await API.post('/admin/import-students', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data;
+};
